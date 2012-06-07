@@ -12,8 +12,9 @@
         <property name="asrFilter" value="${deltifier}"/>
         <property name="baseData" value="${baseData}"/>
         <propertylist name="hypChangeListeners">
+           <item>actor</item>
            <item>pentoInpro</item>
-<!--           <item>${dialogueManager}</item> 
+<!--       <item>${dialogueManager}</item> 
            <item>iuBasedFloorTracker</item> -->
 <!--
            <item>iuBasedFloorTracker</item>
@@ -30,6 +31,7 @@
         </propertylist>
     </component>
     
+    <component name="actor" type="pentogame.inproObjects.Actor" />
     <component name="pentoInpro" type="pentogame.views.PentoInpro" />
     
     <component name="iSS" type="inpro.incremental.processor.SynthesisModule" />

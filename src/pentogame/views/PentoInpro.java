@@ -8,12 +8,24 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import pentogame.Startup;
 import pentogame.controllers.WorldController;
 
 public class PentoInpro extends IUModule implements WorldView {
 
+  private static PentoInpro instance;
+  
   public PentoInpro() {
-    System.out.println("Constructing");
+    try {
+      instance = this;
+      Startup.main(null);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
+  public static PentoInpro getInstance() {
+    return instance;
   }
   
   @Override
@@ -31,7 +43,7 @@ public class PentoInpro extends IUModule implements WorldView {
   @Override
   protected void leftBufferUpdate(Collection<? extends IU> ius,
       List<? extends EditMessage<? extends IU>> edits) {
-        
+    System.out.println("Got IU update:" + ius);
   } 
 
 }

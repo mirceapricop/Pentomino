@@ -10,6 +10,7 @@ import pentogame.models.PieceModel;
 import pentogame.views.PentoCanvas;
 import pentogame.views.PentoCommand;
 import pentogame.views.PentoDialog;
+import pentogame.views.PentoInpro;
 
 public class Startup {
 
@@ -17,7 +18,8 @@ public class Startup {
     WorldController world = new WorldController();
     world.addView(new PentoCanvas());
     //world.addView(new PentoCommand());
-    world.addView(new PentoDialog());
+    //world.addView(new PentoDialog());
+    world.addView(PentoInpro.getInstance());
     world.addModel(new BoardModel());
     world.addModel(new PieceModel());
     world.addModel(new HandModel());
