@@ -1,0 +1,119 @@
+pieces:
+  - type: X
+    color: "blue"
+    left: 100
+    top: 20
+    goal: 2
+  - type: U
+    color: "green"
+    left: 250
+    top: 20
+    goal: 3
+    rotation: 90
+  - type: I
+    color: "red"
+    left: 400
+    top: 20
+    goal: 4
+  - type: V
+    color: "blue"
+    left: 100
+    top: 120
+    goal: 1
+    rotation: 90
+  - type: W
+    color: "yellow"
+    left: 250
+    top: 120
+    goal: 5
+  - type: L
+    color: "green"
+    left: 430
+    top: 120
+    goal: 6
+    mirrored: true
+  - type: N
+    solved: true
+    color: "pink"
+    top: 410
+    left: 255
+  - type: Z
+    solved: true
+    color: "red"
+    top: 380
+    left: 315
+    rotation: 90
+  - type: T
+    solved: true
+    color: "magenta"
+    rotation: 90
+    top: 410
+    left: 345
+  - type: P
+    solved: true
+    color: "cyan"
+    rotation: 180
+    left: 315
+    top: 320
+  - type: Y
+    solved: true
+    color: "yellow"
+    left: 225
+    top: 320
+  - type: F
+    solved: true
+    color: "blue"
+    left: 225
+    top: 350
+
+types:
+  X: |
+    #0#
+    000
+    #0#
+  U: |
+    0#0
+    000
+  I: |
+    0
+    0
+    0
+    0
+    0
+  V: |
+    0##
+    0##
+    000
+  W: |
+    0##
+    00#
+    #00
+  L: |
+    0#
+    0#
+    0#
+    00
+  N: |
+    #0
+    00
+    0#
+    0#
+  Z: |
+    00#
+    #0#
+    #00
+  T: |
+    000
+    #0#
+    #0#
+  P: |
+    00
+    00
+    0#
+  Y: |
+    0000
+    ##0#
+  F: |
+    00#
+    #00
+    #0#

@@ -1,0 +1,40 @@
+width: 600
+height: 600
+grid_size: 30
+fields: |
+  000########
+  0000#######
+  000000000##
+  0000000000#
+  0##00000000
+  0##00000000
+  ###00000000
+  ###00####00
+  ###00####00
+targets:
+  - label: "Ruessel"
+    id: 1
+    top: 350
+    left: 135
+  - label: "Hinterkopf"
+    id: 2
+    top: 260
+    left: 165
+  - label: "Stirn"
+    id: 3
+    top: 260
+    left: 135
+  - label: "Vorderbein"
+    id: 4
+    top: 380
+    left: 225
+  - label: "Hinterteil"
+    id: 5
+    top: 320
+    left: 375
+  - label: "Hinterbein"
+    id: 6
+    top: 410
+    left: 405
+  
+    

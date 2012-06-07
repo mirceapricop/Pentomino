@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/snakeyaml-1.9.jar"/>
+	<classpathentry kind="lib" path="lib/trident.jar"/>
+	<classpathentry kind="lib" path="lib/ClientInterface.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/Cocolab_DE_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/drej.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/jrtp_1.0a.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/scalendar.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/snakeyaml-1.9.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/srilmtbremake.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/trident.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/weka.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/ws-commons-util-1.0.2.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/common-for-convenience/jdom1-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/common-for-convenience/jflac-1.3.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/common-for-convenience/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary3/java-diff.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary3/maryclient.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/freetts-de.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/freetts-en_us.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/freetts.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/jtok.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/mary-common.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/mary-de.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/mary-en.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/mary-freetts.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/mary-mbrola.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/maxent-2.5.1.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/opennlp-tools-1.4.1.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/mary4/signalproc.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/oaa2/antlr-oaa.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/oaa2/backport-util-concurrent.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/oaa2/oaa2.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/sphinx4/jsapi.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/sphinx4/sphinx4.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/xmlrpc/xmlrpc-client-3.1.3.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/xmlrpc/xmlrpc-common-3.1.3.jar"/>
+	<classpathentry kind="lib" path="/Inpro/lib/xmlrpc/xmlrpc-server-3.1.3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Inpro"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
