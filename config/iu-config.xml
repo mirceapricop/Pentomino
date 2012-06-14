@@ -12,26 +12,15 @@
         <property name="asrFilter" value="${deltifier}"/>
         <property name="baseData" value="${baseData}"/>
         <propertylist name="hypChangeListeners">
-           <item>actor</item>
-           <item>pentoInpro</item>
-<!--       <item>${dialogueManager}</item> 
-           <item>iuBasedFloorTracker</item> -->
-<!--
-           <item>iuBasedFloorTracker</item>
-           <item>${dialogueManager}</item>
-           <item>labelWriter2</item>
-           <item>${semanticComposer}</item>
-           <item>hypViewer</item>
-           <item>outputForSimpleText</item>
-           <item>iuNetworkViewer</item>
-           <item>consoleNotifier</item>
-           <item>oaaNotifier</item>
-           <item>iSS</item>
--->
+           <item>NluModule</item>
         </propertylist>
     </component>
     
-    <component name="actor" type="pentogame.inproObjects.Actor" />
+    <component name="NluModule" type="pentogame.inproObjects.NluModule">
+    	<propertylist name="hypChangeListeners">
+           <item>pentoInpro</item>
+        </propertylist>
+    </component>
     <component name="pentoInpro" type="pentogame.views.PentoInpro" />
     
     <component name="iSS" type="inpro.incremental.processor.SynthesisModule" />
