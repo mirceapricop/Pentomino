@@ -15,6 +15,7 @@ import pentogame.objects.Board;
 import pentogame.objects.HandCursor;
 import pentogame.objects.Piece;
 import pentogame.objects.Target;
+import pentogame.views.PentoInpro;
 import pentogame.views.WorldView;
 
 public class WorldController {
@@ -23,12 +24,10 @@ public class WorldController {
 	private ArrayList<ObjectModel> _models;
 	private Piece _selectedPiece;
 	private String _state;
-	private ArrayList<Timeline> _animations;
 	
 	public WorldController() {
 		_views = new ArrayList<WorldView>();
 		_models = new ArrayList<ObjectModel>();
-		_animations = new ArrayList<Timeline>();
 	}
 	
 	public void addView(WorldView view) {
@@ -96,11 +95,7 @@ public class WorldController {
 					piece.selected = true;
 					hand.state = "grabbing";
 					_selectedPiece = piece;
-					_animations.remove(movement);
 					updateViews();
-				}
-				if(new_state.equals(TimelineState.CANCELLED)) {
-					_animations.remove(movement);
 				}
 			}
 			@Override
@@ -111,64 +106,31 @@ public class WorldController {
 		movement.setDuration(1000);
 		movement.setEase(new Spline((float) 0.6));
 		movement.play();
-		_animations.add(movement);
-	}
-	
-	public void abort() {
-		for(Timeline t : _animations) {
-			t.cancel();
-		}
 	}
 	
 	// Moves the currently selected piece to the target with the indicated label
 	// Returns:
 	// 	 1 on success
 	//	 0 on no piece selected 
-	//	-1 on invalid target for piece
 	public int movePieceTo(String target_label) {
 		if(_selectedPiece == null) {
 			return 0;
 		}
 		
 		Target goal = ((BoardModel)fetchModel("board")).getTargetByLabel(target_label);
-		if(goal == null || _selectedPiece.goal != goal.id) {
-			return -1;
-		}
-		
-		// Start the animation and return 1
 		final HandCursor hand = (HandCursor) fetchModel("hand").getObject();
 		final Piece piece = _selectedPiece;
 		final Board board = (Board) fetchModel("board").getObject();
 		
-		final Timeline movement = new Timeline(piece);
-		movement.addPropertyToInterpolate("left", piece.left, goal.left);
-		movement.addPropertyToInterpolate("top", piece.top, goal.top);
-		movement.addCallback(new TimelineCallback() {
-			@Override
-			public void onTimelineStateChanged(TimelineState arg0, TimelineState new_state, float arg2, float arg3) {
-				if(new_state.equals(TimelineState.DONE)) {
-					piece.selected = false;
-					hand.state = "idle";
-					_selectedPiece = null;
-					_animations.remove(movement);
-					updateViews();
-				}
-				if(new_state.equals(TimelineState.CANCELLED)) {
-					_animations.remove(movement);
-				}
-			}
-			@Override
-			public void onTimelinePulse(float arg0, float arg1) {
-				hand.left = piece.left+piece.getTemplateCols()*board.grid_size/2-25;
-				hand.top = piece.top+piece.getTemplateRows()*board.grid_size/2-25;
-				updateViews();
-			}
-		});
+		InproController in = new InproController(piece, hand, board, goal);
+    PentoInpro.getInstance().setController(in);
+    in.setViews(_views);
+    try {
+      in._wait();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 		
-		movement.setDuration(1000);
-		movement.setEase(new Spline((float) 0.6));
-		movement.play();
-		_animations.add(movement);
 		return 1;
 	}
 	

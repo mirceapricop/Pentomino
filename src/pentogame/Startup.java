@@ -17,9 +17,8 @@ public class Startup {
   public static void main(String[] args) throws IOException {
     WorldController world = new WorldController();
     world.addView(new PentoCanvas());
-    //world.addView(new PentoCommand());
+    world.addView(new PentoCommand());
     //world.addView(new PentoDialog());
-    world.addView(PentoInpro.getInstance());
     world.addModel(new BoardModel());
     world.addModel(new PieceModel());
     world.addModel(new HandModel());

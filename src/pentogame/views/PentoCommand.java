@@ -31,9 +31,6 @@ public class PentoCommand extends Thread implements WorldView {
 				if(method.equals("take")) {
 					_controller.takePiece(command.split(" ")[1]);
 				}
-				if(method.equals("abort")) {
-					_controller.abort();
-				}
 				if(method.equals("query")) {
 					PieceQuery query = ((PieceModel)_controller.fetchModel("pieces")).startQuery();
 					while(true) {

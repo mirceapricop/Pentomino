@@ -32,39 +32,6 @@ pieces:
     top: 120
     goal: 6
     mirrored: true
-  - type: N
-    solved: true
-    color: "pink"
-    top: 410
-    left: 255
-  - type: Z
-    solved: true
-    color: "red"
-    top: 380
-    left: 315
-    rotation: 90
-  - type: T
-    solved: true
-    color: "magenta"
-    rotation: 90
-    top: 410
-    left: 345
-  - type: P
-    solved: true
-    color: "cyan"
-    rotation: 180
-    left: 315
-    top: 320
-  - type: Y
-    solved: true
-    color: "yellow"
-    left: 225
-    top: 320
-  - type: F
-    solved: true
-    color: "blue"
-    left: 225
-    top: 350
 
 types:
   X: |

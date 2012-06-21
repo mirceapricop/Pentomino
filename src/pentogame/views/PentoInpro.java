@@ -9,15 +9,18 @@ import java.util.Collection;
 import java.util.List;
 
 import pentogame.Startup;
+import pentogame.controllers.InproController;
 import pentogame.controllers.WorldController;
 
 public class PentoInpro extends IUModule implements WorldView {
 
   private static PentoInpro instance;
+  private InproController controller;
   
   public PentoInpro() {
     try {
       instance = this;
+      controller = null;
       Startup.main(null);
     } catch(Exception e) {
       e.printStackTrace();
@@ -39,11 +42,18 @@ public class PentoInpro extends IUModule implements WorldView {
   @Override
   public void shutDown() {
   }
+  
+  public void setController(InproController c) {
+    controller = c;
+  }
 
   @Override
   protected void leftBufferUpdate(Collection<? extends IU> ius,
       List<? extends EditMessage<? extends IU>> edits) {
     System.out.println("Got IU update:" + ius);
+    if(controller != null) {
+      controller.doStuff();
+    }
   } 
 
 }
