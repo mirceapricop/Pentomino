@@ -1,0 +1,34 @@
+# directional (relative) commands
+links	act:left
+rechts	act:right
+weiter,warm,nochmal	act:continue
+zurück	act:reverse
+
+# modifiers for strength
+bisschen,biss'l,etwas,wenig,stück,stückchen	modifier:weak
+groß,größer,größeres,großes,sehr,stark,weit,viel	modifier:strong
+mehr	modifier:regular
+ganz,rand	modifier:max
+
+# stop
+stopp,stop,halt,reicht,aufhören,jetzt	act:stop
+
+# dropping
+abwärts,runter,loslassen,einwerfen,fallen,unten	act:drop
+
+# positional (absolute) commands
+#mitte	pos:center
+#rand	pos:border
+# for border we'll have to find out whether left or right, hmph.
+
+# modifiers for direction ("linken Rand", ...)
+#linken	modifier:left
+#rechten	modifier:right
+
+# continue to next world
+#neu	act:reset
+#
+################
+#
+#jetzt ?
+#noch ?
