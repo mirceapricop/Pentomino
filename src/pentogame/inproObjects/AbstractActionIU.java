@@ -49,6 +49,7 @@ public abstract class AbstractActionIU extends IU {
 	}	
 	
 	/**
+	 * Why is there a getTarget and a getVector, yo?!
 	 * @return target as a vector
 	 */
 	public Point getTarget(){

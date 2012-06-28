@@ -75,5 +75,7 @@ public class ActionIU extends AbstractActionIU{
 		public boolean isWeak() {
 			return actionStrength == ActionStrength.WEAK || actionStrength == ActionStrength.NONE;
 		}
-	
+	private void calculateTarget(){
+		
+	}
 }
