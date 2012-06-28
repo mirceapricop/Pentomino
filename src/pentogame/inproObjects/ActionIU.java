@@ -7,12 +7,11 @@ import java.util.List;
 import inpro.incremental.unit.IU;
 import inpro.incremental.unit.WordIU;
 
-public class ActionIU extends IU{
+public class ActionIU extends AbstractActionIU{
 
-	private ActionType type = ActionType.STOP;
 	private boolean precedesPause = false;
-	// store the extent of this action
-	private ActionStrength actionStrength = ActionStrength.NORMAL;
+
+
 	
 	public ActionIU(){
 		
@@ -23,10 +22,7 @@ public class ActionIU extends IU{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toPayLoad() {
-		return type + (type.isMotion() ? " / " + actionStrength : "");
-	}
+	
 
 	public void setPrecedesPause(boolean b) {
 		precedesPause = b;
@@ -37,13 +33,8 @@ public class ActionIU extends IU{
 	}
 
 
-	public ActionType getType() {
-
-		return type;
-	}
-
-	
-	private ActionIU predecessor() {
+	@Override
+	protected ActionIU predecessor() {
 		return (ActionIU) previousSameLevelLink;
 	}
 	/**
