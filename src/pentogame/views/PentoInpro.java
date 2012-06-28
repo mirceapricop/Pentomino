@@ -2,15 +2,18 @@ package pentogame.views;
 
 import inpro.incremental.IUModule;
 import inpro.incremental.unit.EditMessage;
+import inpro.incremental.unit.EditType;
 import inpro.incremental.unit.IU;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import pentogame.Startup;
 import pentogame.controllers.InproController;
 import pentogame.controllers.WorldController;
+import pentogame.inproObjects.MockActionIU;
 
 public class PentoInpro extends IUModule implements WorldView {
 
@@ -50,9 +53,16 @@ public class PentoInpro extends IUModule implements WorldView {
   @Override
   protected void leftBufferUpdate(Collection<? extends IU> ius,
       List<? extends EditMessage<? extends IU>> edits) {
-    System.out.println("Got IU update:" + ius);
+    System.out.println(edits);
     if(controller != null) {
-      controller.doStuff();
+      for(EditMessage<? extends IU> em : edits) {
+        if(em.getType() == EditType.ADD) {
+          MockActionIU iu = (MockActionIU) em.getIU();
+          if(iu.getType().isMotion()) {
+            controller.moveTarget(iu.getVector()[0], iu.getVector()[1]);
+          }
+        }
+      }
     }
   } 
 

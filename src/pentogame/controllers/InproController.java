@@ -44,7 +44,7 @@ public class InproController {
     for(WorldView v : _views) {
       v.update();
     }
-  }
+  }// TODO Auto-generated method stub
   
   public void setViews(List<WorldView> l) {
     _views = l;
@@ -85,4 +85,13 @@ public class InproController {
     }
   }
 
+  public void moveTarget(double dx, double dy) {
+    targetLeft += dx*board.grid_size;
+    targetTop += dy*board.grid_size;
+    
+    targetLeft = Math.max(136, targetLeft);
+    targetLeft = Math.min(466, targetLeft);
+    targetTop = Math.max(260, targetTop);
+    targetTop = Math.min(530, targetTop);
+  }
 }
