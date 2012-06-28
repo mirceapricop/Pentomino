@@ -78,4 +78,10 @@ public class ActionIU extends AbstractActionIU{
 	private void calculateTarget(){
 		
 	}
+
+  @Override
+  public Point getVector() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
