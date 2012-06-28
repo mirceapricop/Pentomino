@@ -25,24 +25,24 @@ public enum ActionType {
 	/** Cancel	 */
 	CANCEL;
 	
-	boolean isMotion() {
+	public boolean isMotion() {
 		return this.isImplicitDirection() || this.isExplicitDirection();
 	}
-	boolean isStop(){
+	public boolean isStop(){
 		return (this.equals(STOP));
 	}
-	boolean isCancel(){
+	public boolean isCancel(){
 		return (this.equals(CANCEL));
 	}
 	
-	boolean isImplicitDirection() {
+	public boolean isImplicitDirection() {
 		return this.equals(CONTINUE) || this.equals(REVERSE);
 	}
 	
-	boolean isExplicitDirection() {
+	public boolean isExplicitDirection() {
 		return this.equals(LEFT) || this.equals(RIGHT) || this.equals(UP) || this.equals(DOWN);
 	}
-	boolean isOrthogonal(ActionType predescessor){
+	public boolean isOrthogonal(ActionType predescessor){
 		return (((this.equals(LEFT)|| this.equals(RIGHT)) && (predescessor.equals(UP) || predescessor.equals(DOWN))) 
 			|| (this.equals(UP)||this.equals(DOWN))&&(predescessor.equals(LEFT)|| predescessor.equals(RIGHT)));
 	}
