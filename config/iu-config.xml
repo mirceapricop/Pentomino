@@ -12,11 +12,11 @@
         <property name="asrFilter" value="${deltifier}"/>
         <property name="baseData" value="${baseData}"/>
         <propertylist name="hypChangeListeners">
-           <item>NluModule</item>
+           <item>NLUModule</item>
         </propertylist>
     </component>
     
-    <component name="NluModule" type="pentogame.inproObjects.NluModule">
+    <component name="NLUModule" type="pentogame.inproObjects.NLUModule">
     	<propertylist name="hypChangeListeners">
            <item>pentoInpro</item>
         </propertylist>

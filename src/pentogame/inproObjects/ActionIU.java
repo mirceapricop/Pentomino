@@ -3,6 +3,7 @@ package pentogame.inproObjects;
 import java.util.List;
 
 
+//import inpro.domains.greifarm.ActionStrength;
 import inpro.incremental.unit.IU;
 import inpro.incremental.unit.WordIU;
 
@@ -78,6 +79,10 @@ public class ActionIU extends IU{
 				}
 			}
 			return type;
+		}
+		
+		public boolean isWeak() {
+			return actionStrength == ActionStrength.WEAK || actionStrength == ActionStrength.NONE;
 		}
 	
 }
