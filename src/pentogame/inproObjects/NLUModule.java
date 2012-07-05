@@ -54,7 +54,7 @@ import org.apache.log4j.Logger;
 public class NLUModule extends IUModule {
 	
 	private static final Logger logger = Logger.getLogger(NLUModule.class);
-	private final Deque<ActionIU> performedActions;
+	private  Deque<ActionIU> performedActions;// = new Deque<ActionIU>(); TODO: TIIIIMO wir haben das final gelööööscht, schlimm?
 	
 	/* incrementality/add/revoke related stuff here: */
 	/** most recent words that are not yet part of an interpretation */
@@ -79,7 +79,7 @@ public class NLUModule extends IUModule {
 				//	logger.debug("I have to revert an action");
 					if (!generatedActions.isEmpty()) {
 						ActionIU previousAction = performedActions.peekLast();
-						if (!(previousAction instanceof ActionIU.StartActionIU)) { 
+						if (previousAction != null) { 
 							performedActions.pollLast();
 							previousAction.revoke();
 							unusedWords.addAll((List<WordIU>) previousAction.groundedIn());

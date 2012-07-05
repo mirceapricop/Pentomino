@@ -3,6 +3,10 @@ links	act:left
 rechts	act:right
 weiter,warm,nochmal	act:continue
 zurück	act:reverse
+oben,hoch	act:up
+unten,runter	act:down 
+abbrechen,zurücklegen,vonvorne,neuesteil	act:cancel 
+#TODO: nochmal drüber nachdenken
 
 # modifiers for strength
 bisschen,biss'l,etwas,wenig,stück,stückchen	modifier:weak

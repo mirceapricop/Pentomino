@@ -3,6 +3,7 @@ package pentogame.inproObjects;
 import java.util.List;
 
 
+
 //import inpro.domains.greifarm.ActionStrength;
 //import inpro.incremental.unit.IU;
 import inpro.incremental.unit.WordIU;
@@ -27,10 +28,10 @@ public class ActionIU extends AbstractActionIU{
 	}
 	
 	public ActionIU(ActionIU sll, List<WordIU> groundingWords, ActionType actionType, ActionStrength strengthModifier) {
-		//TODO: we might want to set some variables to sll and groundingWords
+		//TODO: we might want to set some variable to groundingWords
 		type = actionType;
 		strength = strengthModifier;
-		
+		this.previousSameLevelLink = sll;
 	}
 
 	
