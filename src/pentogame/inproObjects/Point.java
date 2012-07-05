@@ -60,7 +60,7 @@ public class Point {
 	 * @param factor for scale
 	 * @return point the new point = old point * factor
 	 */
-	private Point scale(int factor) {
+	public Point scale(int factor) {
 		Point point = new Point(x*factor,y*factor);
 		
 		return point;
