@@ -1,9 +1,9 @@
 
 /*
  * Wir sammeln ActionIUs in einer Liste, diese haben nur 4 Himmelsrichtungen, 
- * die Pragmatik macht da die Diagonalität raus. 
- * Sollte es bei Diagonalität aber zu einem "Weiter" kommen müssen wir das aber bemerken, mit einer if schleife, die bei jedem "weiter" zwei vorgänger überprüft
- * Modifikatoren müssen bei diagonalität übergeben werden
+ * die Pragmatik macht da die Diagonalitï¿½t raus. 
+ * Sollte es bei Diagonalitï¿½t aber zu einem "Weiter" kommen mï¿½ssen wir das aber bemerken, mit einer if schleife, die bei jedem "weiter" zwei vorgï¿½nger ï¿½berprï¿½ft
+ * Modifikatoren mï¿½ssen bei diagonalitï¿½t ï¿½bergeben werden
  * Pausen sind Teil der ActionIUs und werden von den Pragmatikern interpretiert
  * 
  */
@@ -78,14 +78,14 @@ public class NLUModule extends IUModule {
 				if (unusedWords.isEmpty()) {
 				//	logger.debug("I have to revert an action");
 					if (!generatedActions.isEmpty()) {
-//						ActionIU previousAction = performedActions.peekLast();
-//						if (!(previousAction instanceof ActionIU.StartActionIU)) { 
-//							performedActions.pollLast();
-//							previousAction.revoke();
-//							unusedWords.addAll((List<WordIU>) previousAction.groundedIn());
-//						} else {
-//							logger.warn("something's wrong: " + performedActions + previousAction + unusedWords);
-//						}
+						ActionIU previousAction = performedActions.peekLast();
+						if (!(previousAction instanceof ActionIU.StartActionIU)) { 
+							performedActions.pollLast();
+							previousAction.revoke();
+							unusedWords.addAll((List<WordIU>) previousAction.groundedIn());
+						} else {
+							logger.warn("something's wrong: " + performedActions + previousAction + unusedWords);
+						}
 					} else {
 						assert false : "Must not revoke when no word has been input.";
 					}

@@ -42,9 +42,15 @@ public enum ActionType {
 	boolean isExplicitDirection() {
 		return this.equals(LEFT) || this.equals(RIGHT) || this.equals(UP) || this.equals(DOWN);
 	}
+	
+	boolean isHorizontal(){
+		return (this.equals(LEFT)|| this.equals(RIGHT));
+	}
+	boolean isVertical(){
+		return (this.equals(UP)|| this.equals(DOWN));
+	}
 	boolean isOrthogonal(ActionType predescessor){
-		return (((this.equals(LEFT)|| this.equals(RIGHT)) && (predescessor.equals(UP) || predescessor.equals(DOWN))) 
-			|| (this.equals(UP)||this.equals(DOWN))&&(predescessor.equals(LEFT)|| predescessor.equals(RIGHT)));
+		return ((this.isHorizontal() && predescessor.isVertical())|| (this.isVertical()&& predescessor.isHorizontal()));
 	}
 	
 	/** return the reverse of this action, if this exists */

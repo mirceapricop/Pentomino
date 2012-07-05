@@ -75,13 +75,47 @@ public class ActionIU extends AbstractActionIU{
 		public boolean isWeak() {
 			return actionStrength == ActionStrength.WEAK || actionStrength == ActionStrength.NONE;
 		}
-	private void calculateTarget(){
-		
-	}
 
   @Override
   public Point getVector() {
-    // TODO Auto-generated method stub
-    return null;
+	  int x =0;
+	  int y=0;
+	  //TODO: What happens : "oben links" + "weiter" + "stop" + "zurück" 
+	  //TODO: Scaling with the action strenght
+	  if(type.isExplicitDirection()){
+		  switch(type){
+	  		case LEFT: x = -1;
+	  		case RIGHT: x = 1;
+	  		case UP: y = -1;
+	  		case DOWN: y = 1;
+		  }
+		  return new Point(x,y);
+		  
+	  }else if(type.isImplicitDirection()){
+		//TODO: Count how many times "weiter" and increase ActionStrength	
+		  if(this.isDiagonalMovement()){ //TODO:check for weiter vs zurück
+			if(firstNOTdiagonal().type.isHorizontal()){
+				return new Point(firstNOTdiagonal().getVector().getX(), predecessor().getVector().getY());
+			}else{
+				return new Point(predecessor().getVector().getX(), firstNOTdiagonal().getVector().getY());
+			}
+		  }
+			return  predecessor().getVector();
+		  }
+	  
+	  else//Type is : Stop, Drop, Cancle
+		  {
+		    return new Point(0,0); // TODO: Not correct for the use above
+	  }
+
+	}
+  private ActionIU firstNOTdiagonal(){
+	  
+	  if(this.isDiagonalMovement()){
+		 return predecessor().firstNOTdiagonal();
+	  }
+	  else{
+		  return this;
+	  }
   }
 }
