@@ -14,6 +14,7 @@ import pentogame.Startup;
 import pentogame.controllers.InproController;
 import pentogame.controllers.WorldController;
 import pentogame.inproObjects.MockActionIU;
+import pentogame.inproObjects.Point;
 
 public class PentoInpro extends IUModule implements WorldView {
 
@@ -53,13 +54,19 @@ public class PentoInpro extends IUModule implements WorldView {
   @Override
   protected void leftBufferUpdate(Collection<? extends IU> ius,
       List<? extends EditMessage<? extends IU>> edits) {
-    System.out.println(edits);
     if(controller != null) {
       for(EditMessage<? extends IU> em : edits) {
+        MockActionIU iu = (MockActionIU) em.getIU();
         if(em.getType() == EditType.ADD) {
-          MockActionIU iu = (MockActionIU) em.getIU();
           if(iu.getType().isMotion()) {
-            controller.moveTarget(iu.getVector()[0], iu.getVector()[1]);
+            Point actionTarget = controller.moveTarget(iu.getVector().getX(), iu.getVector().getY());
+            iu.setTarget(actionTarget);
+          }
+        } else if (em.getType() == EditType.REVOKE) {
+          if(iu.predecessor() != null) {
+            controller.setTarget(iu.predecessor().getTarget());
+          } else {
+            controller.resetTarget();
           }
         }
       }

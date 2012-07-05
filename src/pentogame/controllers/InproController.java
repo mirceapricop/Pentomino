@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.pushingpixels.trident.Timeline;
 
+import pentogame.inproObjects.Point;
 import pentogame.objects.Board;
 import pentogame.objects.HandCursor;
 import pentogame.objects.Piece;
@@ -18,6 +19,10 @@ public class InproController {
   private Board board;
   private int targetLeft;
   private int targetTop;
+  
+  private int originalLeft;
+  private int originalTop;
+  
   private double realLeft;
   private double realTop;
   
@@ -33,8 +38,8 @@ public class InproController {
     piece = p;
     hand = h;
     board = b;
-    targetLeft = t.left;
-    targetTop = t.top;
+    targetLeft = originalLeft = t.left;
+    targetTop = originalTop = t.top;
     realLeft = piece.left;
     realTop = piece.top;
     _views = new ArrayList<WorldView>();
@@ -85,7 +90,7 @@ public class InproController {
     }
   }
 
-  public void moveTarget(double dx, double dy) {
+  public Point moveTarget(double dx, double dy) {
     targetLeft += dx*board.grid_size;
     targetTop += dy*board.grid_size;
     
@@ -93,5 +98,17 @@ public class InproController {
     targetLeft = Math.min(466, targetLeft);
     targetTop = Math.max(260, targetTop);
     targetTop = Math.min(530, targetTop);
+    
+    return new Point(targetLeft, targetTop);
+  }
+
+  public void setTarget(Point target) {
+    targetLeft = target.getX();
+    targetTop = target.getY();
+  }
+
+  public void resetTarget() {
+    targetLeft = originalLeft;
+    targetTop = originalTop;
   }
 }

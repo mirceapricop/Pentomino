@@ -4,34 +4,28 @@ import java.util.Random;
 
 import inpro.incremental.unit.IU;
 
-public class MockActionIU extends IU {
+public class MockActionIU extends AbstractActionIU {
 
-  private double[] vector;
-  
-  public class Type {
-    public boolean isMotion() {
-      return true;
-    }
-  }
+  private Point vector;
   
   public MockActionIU() {
     Random r = new Random();
-    vector = new double[2];
-    vector[0] = r.nextInt(10)-5;
-    vector[1] = r.nextInt(10)-5;
+    vector = new Point(r.nextInt(10)-5, r.nextInt(10)-5);
   }
   
   @Override
   public String toPayLoad() {
     return null;
   }
-  
-  public Type getType() {
-    return new Type();
+
+  @Override
+  public Point getVector() {
+    return vector;
   }
   
-  public double[] getVector() {
-    return vector;
+  @Override
+  public ActionType getType() {
+    return ActionType.UP;
   }
 
 }

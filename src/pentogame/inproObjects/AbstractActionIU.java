@@ -44,13 +44,12 @@ public abstract class AbstractActionIU extends IU {
 	/**
 	 * @return predecessor as a same level link
 	 */
-	protected AbstractActionIU predecessor() {
+	public AbstractActionIU predecessor() {
 		return (AbstractActionIU) previousSameLevelLink;
 	}	
 	
 	/**
-	 * Why is there a getTarget and a getVector, yo?!
-	 * @return target as a vector
+	 * @return target as a absolute position
 	 */
 	public Point getTarget(){
 		
@@ -58,13 +57,12 @@ public abstract class AbstractActionIU extends IU {
 	}
 		
 	/**
-	 * Set a target as a vector
+	 * Set a target as a absolute position
 	 *
-	 * @param newTarget
+	 * @param actionTarget
 	 */
-	public void setTarget(Point newTarget){
-		target = newTarget;
-		
+	public void setTarget(Point actionTarget){
+		target = actionTarget;
 	}
 	
 	/**
