@@ -69,4 +69,6 @@ public abstract class AbstractActionIU extends IU {
 	 * Should return a vector of ActionStrength and ActionType
 	 */
 	public abstract Point getVector(); 
+	
+	
 }

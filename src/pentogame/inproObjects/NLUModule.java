@@ -54,7 +54,7 @@ import org.apache.log4j.Logger;
 public class NLUModule extends IUModule {
 	
 	private static final Logger logger = Logger.getLogger(NLUModule.class);
-
+	private final Deque<ActionIU> performedActions;
 	
 	/* incrementality/add/revoke related stuff here: */
 	/** most recent words that are not yet part of an interpretation */

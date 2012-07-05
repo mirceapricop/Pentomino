@@ -14,8 +14,11 @@ public enum ActionStrength {
 		}
 	}
 	
+
+	
 	/** a distance that is neither 0 nor infinity */
 	boolean isNormalDistance() {
 		return this != ActionStrength.NONE && this != ActionStrength.MAX;
 	}
+	
 }
