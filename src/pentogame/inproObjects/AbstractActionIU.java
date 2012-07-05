@@ -1,6 +1,9 @@
 package pentogame.inproObjects;
 
+//import java.util.List;
+
 import inpro.incremental.unit.IU;
+//import inpro.incremental.unit.WordIU;
 
 /** Abstract Action IU
  * 
@@ -23,7 +26,6 @@ public abstract class AbstractActionIU extends IU {
 	 * Goal of movement on GUI
 	 */
 	private Point target;
-	
 
 	/**
 	 * Standard method for IU

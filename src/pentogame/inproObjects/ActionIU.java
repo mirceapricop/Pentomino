@@ -4,7 +4,7 @@ import java.util.List;
 
 
 //import inpro.domains.greifarm.ActionStrength;
-import inpro.incremental.unit.IU;
+//import inpro.incremental.unit.IU;
 import inpro.incremental.unit.WordIU;
 
 
@@ -26,9 +26,11 @@ public class ActionIU extends AbstractActionIU{
 		
 	}
 	
-	public ActionIU(ActionIU sll, List<WordIU> groundingWords,
-			ActionType actionType, ActionStrength strengthModifier) {
-		// TODO Auto-generated constructor stub
+	public ActionIU(ActionIU sll, List<WordIU> groundingWords, ActionType actionType, ActionStrength strengthModifier) {
+		//TODO: we might want to set some variables to sll and groundingWords
+		type = actionType;
+		strength = strengthModifier;
+		
 	}
 
 	
@@ -91,8 +93,6 @@ public class ActionIU extends AbstractActionIU{
 	  int y=0;
 	  Point returnpoint = new Point(0,0);
 	  
-	  //TODO: What happens : "oben links" + "weiter" + "stop" + "zurück" 
-	  
 	  //The following piece of higher art is about ActionTypes 
 	  if(type.isExplicitDirection()){
 		  switch(type){
@@ -154,7 +154,7 @@ public class ActionIU extends AbstractActionIU{
 	  	}
 	  	else//Type is : Stop, Drop, Cancle
 	  	{
-	  		returnpoint = new Point(0,0); //NOTE: They ask 4 ismotion() if not so they do not ask getVector() 
+	  		returnpoint = predecessor().getVector(); //That is in need for "oben links" + "weiter" + "stop" + "zurück" - we want to revert "weiter" and not "stop"
 	  	}
 	  
 	  
