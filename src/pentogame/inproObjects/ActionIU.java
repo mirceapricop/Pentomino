@@ -34,7 +34,7 @@ public class ActionIU extends AbstractActionIU{
 
 
 	@Override
-	protected ActionIU predecessor() {
+  public ActionIU predecessor() {
 		return (ActionIU) previousSameLevelLink;
 	}
 	/**
