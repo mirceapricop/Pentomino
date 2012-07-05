@@ -21,6 +21,9 @@ public class InproController {
   private int originalLeft;
   private int originalTop;
   
+  private int startLeft;
+  private int startTop;
+  
   private double realLeft;
   private double realTop;
   
@@ -33,6 +36,8 @@ public class InproController {
   private final int MAX_LEFT = 466;
   private final int MAX_TOP = 530;
   
+  private volatile boolean stopMovement;
+  
   private List<WorldView> _views;
   
   private final Object inproLock = new Object();
@@ -43,8 +48,13 @@ public class InproController {
     board = b;
     targetLeft = originalLeft = t.left;
     targetTop = originalTop = t.top;
+    
+    startLeft = p.left;
+    startTop = p.top;
+    
     realLeft = piece.left;
     realTop = piece.top;
+    stopMovement = false;
     _views = new ArrayList<WorldView>();
   }
   
@@ -62,8 +72,9 @@ public class InproController {
     mover = new Thread(new Runnable() {
       @Override
       public void run() {
+        boolean finished = false;
         lastMove = System.currentTimeMillis();
-        while(true) {
+        while(!finished) {
           long now = System.currentTimeMillis();
           int elapsed = (int) (now - lastMove);
           lastMove = now;
@@ -77,6 +88,18 @@ public class InproController {
           piece.top = (int) realTop;
           hand.left = piece.left+piece.getTemplateCols()*board.grid_size/2-25;
           hand.top = piece.top+piece.getTemplateRows()*board.grid_size/2-25;
+          if(stopMovement) {
+            if(Math.abs(piece.left - targetLeft) < 5 && Math.abs(piece.top - targetTop) < 5) {
+              finished = true;
+              piece.left = targetLeft;
+              piece.top = targetTop;
+              hand.left = piece.left+piece.getTemplateCols()*board.grid_size/2-25;
+              hand.top = piece.top+piece.getTemplateRows()*board.grid_size/2-25;
+              synchronized(inproLock) {
+                inproLock.notifyAll();
+              }
+            }
+          }
           updateViews();
         }
       }
@@ -118,5 +141,15 @@ public class InproController {
     int closestX = (piece.left - MIN_LEFT)/board.grid_size * board.grid_size;
     int closestY = (piece.top - MIN_TOP)/board.grid_size * board.grid_size;
     return new Point(closestX+MIN_LEFT, closestY+MIN_TOP);
+  }
+
+  public void drop() {
+    setTarget(closestGridPoint());
+    stopMovement = true;
+  }
+
+  public void cancel() {
+    setTarget(new Point(startLeft, startTop));
+    stopMovement = true;
   }
 }
