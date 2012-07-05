@@ -26,29 +26,25 @@ public class MockNLUModule extends IUModule {
        List<? extends EditMessage<? extends IU>> edits) {
      for(EditMessage<? extends IU> em : edits) {
        if(em.getType() == EditType.ADD) {
+         MockActionIU iu;
          WordIU word = (WordIU) em.getIU();
-         if(word.getWord().toLowerCase().equals("stop")) {
-           output.add(MockActionIU.newStop());
-           return;
+         if(word.getWord().equals("stop")) {
+           iu = MockActionIU.newStop();
+         } else if(word.getWord().equals("drop")) {
+           iu = MockActionIU.newDrop();
+         } else if(word.getWord().equals("cancel")) {
+           iu = MockActionIU.newCancel();
+         } else {         
+           String[] components = word.getWord().split(",");
+           int x = 0;
+           int y = 0;
+         
+           try { x = Integer.parseInt(components[0]); } catch(Exception e) {}
+           try { y = Integer.parseInt(components[1]); } catch(Exception e) {}
+           iu = new MockActionIU(x, y);
          }
-         
-         if(word.getWord().equals("drop")) {
-           System.out.println("Drop");
-           return;
-         }
-         
-         if(word.getWord().equals("cancel")) {
-           System.out.println("Cancel");
-           return;
-         }
-         
-         String[] components = word.getWord().split(",");
-         int x = 0;
-         int y = 0;
-         
-         try { x = Integer.parseInt(components[0]); } catch(Exception e) {}
-         try { y = Integer.parseInt(components[1]); } catch(Exception e) {}
-         output.add(new MockActionIU(x, y));
+         iu.setSameLevelLink(output.peekLast());
+         output.add(iu);
        } else if(em.getType() == EditType.REVOKE) {
          output.removeLast();
        }

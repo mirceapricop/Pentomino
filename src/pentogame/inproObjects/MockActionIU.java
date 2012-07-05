@@ -39,4 +39,16 @@ public class MockActionIU extends AbstractActionIU {
     return type;
   }
 
+  public static MockActionIU newDrop() {
+    MockActionIU result = new MockActionIU();
+    result.type = ActionType.DROP;
+    return result;
+  }
+
+  public static MockActionIU newCancel() {
+    MockActionIU result = new MockActionIU();
+    result.type = ActionType.CANCEL;
+    return result;
+  }
+
 }

@@ -62,6 +62,14 @@ public class PentoInpro extends IUModule implements WorldView {
             controller.stopMove();
           }
           
+          if(iu.getType().isDrop()) {
+            controller.drop();
+          }
+          
+          if(iu.getType().isCancel()) {
+            controller.cancel();
+          }
+          
           if(iu.getType().isMotion()) {
             Point actionTarget = controller.moveTarget(iu.getVector().getX(), iu.getVector().getY());
             iu.setTarget(actionTarget);
