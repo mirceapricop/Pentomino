@@ -2,15 +2,20 @@ package pentogame.inproObjects;
 
 import java.util.Random;
 
-import inpro.incremental.unit.IU;
-
 public class MockActionIU extends AbstractActionIU {
 
   private Point vector;
+  public ActionType type;
   
   public MockActionIU() {
     Random r = new Random();
     vector = new Point(r.nextInt(10)-5, r.nextInt(10)-5);
+    type = ActionType.UP;
+  }
+  
+  public MockActionIU(int x, int y) {
+    vector = new Point(x, y);
+    type = ActionType.UP;
   }
   
   @Override
@@ -23,9 +28,15 @@ public class MockActionIU extends AbstractActionIU {
     return vector;
   }
   
+  public static MockActionIU newStop() {
+    MockActionIU result = new MockActionIU();
+    result.type = ActionType.STOP;
+    return result;
+  }
+  
   @Override
   public ActionType getType() {
-    return ActionType.UP;
+    return type;
   }
 
 }

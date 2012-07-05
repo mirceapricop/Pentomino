@@ -35,6 +35,10 @@ public enum ActionType {
 		return (this.equals(CANCEL));
 	}
 	
+	public boolean isDrop() {
+	  return this.equals(DROP);
+	}
+	
 	public boolean isImplicitDirection() {
 		return this.equals(CONTINUE) || this.equals(REVERSE);
 	}

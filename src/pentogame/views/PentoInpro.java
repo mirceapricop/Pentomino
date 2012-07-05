@@ -58,6 +58,10 @@ public class PentoInpro extends IUModule implements WorldView {
       for(EditMessage<? extends IU> em : edits) {
         MockActionIU iu = (MockActionIU) em.getIU();
         if(em.getType() == EditType.ADD) {
+          if(iu.getType().isStop()) {
+            controller.stopMove();
+          }
+          
           if(iu.getType().isMotion()) {
             Point actionTarget = controller.moveTarget(iu.getVector().getX(), iu.getVector().getY());
             iu.setTarget(actionTarget);
