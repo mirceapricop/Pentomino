@@ -3,8 +3,6 @@ package pentogame.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pushingpixels.trident.Timeline;
-
 import pentogame.inproObjects.Point;
 import pentogame.objects.Board;
 import pentogame.objects.HandCursor;
@@ -30,6 +28,11 @@ public class InproController {
   private int speed = 50; // px / sec
   private long lastMove;
   
+  private final int MIN_LEFT = 136;
+  private final int MIN_TOP = 260;
+  private final int MAX_LEFT = 466;
+  private final int MAX_TOP = 530;
+  
   private List<WorldView> _views;
   
   private final Object inproLock = new Object();
@@ -53,11 +56,6 @@ public class InproController {
   
   public void setViews(List<WorldView> l) {
     _views = l;
-  }
-  
-  public void doStuff() {
-    targetLeft = (int) (Math.random()*330) + 136;
-    targetTop = (int) (Math.random()*270) + 260;
   }
   
   public void _wait() throws InterruptedException {
@@ -94,12 +92,16 @@ public class InproController {
     targetLeft += dx*board.grid_size;
     targetTop += dy*board.grid_size;
     
-    targetLeft = Math.max(136, targetLeft);
-    targetLeft = Math.min(466, targetLeft);
-    targetTop = Math.max(260, targetTop);
-    targetTop = Math.min(530, targetTop);
+    targetLeft = Math.max(MIN_LEFT, targetLeft);
+    targetLeft = Math.min(MAX_LEFT, targetLeft);
+    targetTop = Math.max(MIN_TOP, targetTop);
+    targetTop = Math.min(MAX_TOP, targetTop);
     
     return new Point(targetLeft, targetTop);
+  }
+  
+  public void stopMove() {
+    setTarget(closestGridPoint());
   }
 
   public void setTarget(Point target) {
@@ -110,5 +112,11 @@ public class InproController {
   public void resetTarget() {
     targetLeft = originalLeft;
     targetTop = originalTop;
+  }
+  
+  private Point closestGridPoint() {
+    int closestX = (piece.left - MIN_LEFT)/board.grid_size * board.grid_size;
+    int closestY = (piece.top - MIN_TOP)/board.grid_size * board.grid_size;
+    return new Point(closestX+MIN_LEFT, closestY+MIN_TOP);
   }
 }
