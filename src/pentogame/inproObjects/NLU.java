@@ -22,6 +22,7 @@ public class NLU {
 	public NLU(Deque<WordIU> unusedWords, Deque<ActionIU> performedActions) {
 		this.unusedWords = unusedWords;
 		this.performedActions = performedActions;
+		
 	}
 	
 	/**
@@ -90,8 +91,8 @@ public class NLU {
 //		if (strengthModifier.isNormalDistance()) {
 //				ActionIU sll = performedActions.peekLast();
 //
-//				ActionIU action = new ActionIU(sll, new ArrayList<WordIU>(unusedWords), ActionType.CONTINUE, strengthModifier);
-//				performedActions.addLast(action);
+//			ActionIU action = new ActionIU(sll, new ArrayList<WordIU>(unusedWords), ActionType.CONTINUE, strengthModifier);
+////				performedActions.addLast(action);
 //			unusedWords.clear();
 //		}
 //		}

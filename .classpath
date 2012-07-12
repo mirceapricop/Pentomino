@@ -43,6 +43,5 @@
 	<classpathentry kind="lib" path="lib/ClientInterface.jar"/>
 	<classpathentry kind="lib" path="lib/snakeyaml-1.9.jar"/>
 	<classpathentry kind="lib" path="lib/trident.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/sds2012-code"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

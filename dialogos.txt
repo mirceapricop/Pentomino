@@ -744,13 +744,13 @@ $ROOT = {$={text=&quot;&quot;};} (
 // ========================= Ort ==============================
 $Ort = //{$={text1=&quot;&quot;};}
  (
-		Rüssel //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruessel&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruessel&quot;)}
+		Ruessel //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruessel&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruessel&quot;)}
 		|Hinterkopf //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterkopf&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterkopf&quot;)}
 		|Stirn // {$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Stirn&quot;) ; $=put($, &quot;farbe&quot;, &quot;Stirn&quot;)}
 		|Vorderbein //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Vorderbein&quot;) ; $=put($, &quot;farbe&quot;, &quot;Vorderbein&quot;)}
 		|Hinterteil //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterteil&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterteil&quot;)}
 		|Hinterbein // {$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterbein&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterbein&quot;)}
-		|Rücken //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruecken&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruecken&quot;)}
+		|Ruecken //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruecken&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruecken&quot;)}
 );
 
 </value>
@@ -1291,7 +1291,7 @@ $Ort = //{$={text1=&quot;&quot;};}
 			<att name="condition" type="string" value="teilbeschreibung"/>
 		</edge>
 		<edge type="timeout" src="1109997d-16bc-11e1-a396-51af591feb54" tgt="0013b1fe-42b5-11e1-8453-9b9974173cb6">
-			<att name="condition" type="string" value="Timeout after 10000ms"/>
+			<att name="condition" type="string" value="Zeitüberschreitung nach 10000ms"/>
 			<att name="timeout" type="string" value="10000"/>
 		</edge>
 		<edge src="4ac22794-3d33-11e1-9280-0deee7d2c939" tgt="53af08bd-3d30-11e1-9280-0deee7d2c939">
@@ -1386,7 +1386,7 @@ $Ort = //{$={text1=&quot;&quot;};}
 			<att name="condition" type="string" value="platzbeschreibung"/>
 		</edge>
 		<edge type="timeout" src="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c66-482d-11e1-883a-6b3bf2f520cb">
-			<att name="condition" type="string" value="Timeout after 10000ms"/>
+			<att name="condition" type="string" value="Zeitüberschreitung nach 10000ms"/>
 			<att name="timeout" type="string" value="10000"/>
 		</edge>
 		<edge src="5b6c7c5e-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5f-482d-11e1-883a-6b3bf2f520cb">

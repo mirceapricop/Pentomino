@@ -16,6 +16,7 @@ import inpro.incremental.unit.WordIU;
 import inpro.nlu.AVPairMappingUtil;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
@@ -61,7 +62,7 @@ import edu.cmu.sphinx.util.props.PropertySheet;
 public class NLUModule extends IUModule {
 	
 	private static final Logger logger = Logger.getLogger(NLUModule.class);
-	private  Deque<ActionIU> performedActions;// = new Deque<ActionIU>(); TODO: TIIIIMO wir haben das final gelööööscht, schlimm?
+	private  Deque<ActionIU> performedActions = new ArrayDeque<ActionIU>();
 	
 	/* incrementality/add/revoke related stuff here: */
 	/** most recent words that are not yet part of an interpretation */
@@ -75,6 +76,9 @@ public class NLUModule extends IUModule {
 	@Override
 	public void leftBufferUpdate(Collection<? extends IU> ius,
 			List<? extends EditMessage<? extends IU>> edits) {
+		//ActionIU sll = performedActions.peekLast();
+		ActionIU action = new ActionIU(null, new ArrayList<WordIU>(unusedWords), ActionType.STOP, ActionStrength.WEAK);
+		performedActions.addLast(action);
 		boolean commitFlag = false; // set to true if there are commit messages
 		for (EditMessage<? extends IU> em : edits) {
 			logger.debug("received edit message " + em);
