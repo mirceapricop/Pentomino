@@ -1,0 +1,1427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wizard SYSTEM "Wizard.dtd">
+
+<wizard>
+	<device id="0cb375de-3d24-11e1-a4df-91a9b7f5f24e">
+		<name>Pentomino</name>
+		<connector class="com.clt.dialog.client.RendezvousCLTConnector">
+			<att name="Service Name" type="string" value="Pentomino"/>
+			<att name="Server" type="string" value="localhost"/>
+		</connector>
+		<icon width="16">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</icon>
+	</device>
+	<plugin type="dialogos.plugin.lego">
+	</plugin>
+	<plugin type="dialogos.plugin.vocon">
+		<att name="language" type="string" value="Deutsch"/>
+	</plugin>
+	<plugin type="dialogos.plugin.tts">
+		<att name="voice" type="string" value="Daniel"/>
+		<att name="speed" type="integer" value="100"/>
+		<att name="pitch" type="integer" value="100"/>
+		<att name="volume" type="integer" value="80"/>
+	</plugin>
+	<graph directed="1" Graphic="1" Layout="points">
+		<att name="width" type="integer" value="1499"/>
+		<att name="height" type="integer" value="2000"/>
+		<script>
+			<name>More</name>
+			<value>string More (struct response)
+{
+	list askListe;
+	string unique;
+	askListe = get(response, &quot;ask&quot;);
+//if(contains(askListe, &quot;color&quot;))
+	// unique = get(askList, &quot;color&quot;);	 
+
+//else { if(contains(askListe, &quot;form&quot;))
+//	 unique = get(askList, &quot;form&quot;);	 
+
+//else { if(contains(askListe, &quot;row&quot;))
+	// unique = get(askList, &quot;row&quot;);	 
+
+//else {
+	// unique = get(askList, &quot;col&quot;);	 
+//}}}
+	if(contains(askListe, &quot;col&quot;))
+	 	unique = &quot;col&quot;;	 
+	if(contains(askListe, &quot;row&quot;))
+		unique = &quot;row&quot;;	 
+	if(contains(askListe, &quot;form&quot;))
+	 	unique = &quot;form&quot;;	 
+	if(contains(askListe, &quot;color&quot;))
+	 	unique = &quot;color&quot;;
+	return unique;
+}</value>
+		</script>
+		<script>
+			<name>Gesagtes</name>
+			<value>string Gesagtes(struct teilbeschreibung)
+{	
+	struct Structi;
+	string Ausgabi;
+ 	Structi = get(teilbeschreibung, &quot;form&quot;);
+	Ausgabi = get(Structi, &quot;text2&quot;);
+	return Ausgabi;
+}</value>
+		</script>
+		<script>
+			<name>Gesagtes2</name>
+			<value>string Gesagtes2(struct platzbeschreibung)
+{	
+	string Ausgabi;
+ 	Ausgabi = get(platzbeschreibung, &quot;ort&quot;);
+	return Ausgabi;
+}</value>
+		</script>
+		<grammar id="11099979-16bc-11e1-a396-51af591feb54">
+			<name>MainStruct</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Nimm|Nehme|Nehmen wir|Suche|Suchen] {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; Nimm&quot;);} //Beginn eines Satzes
+		[doch] [mal]
+		(bitte {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; bitte&quot;);})* //Füllworte
+		( die {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; die&quot;);}| das {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; das&quot;);})*   //Artikel
+(($FARBE {$ = put($, &quot;farbe&quot;, get($FARBE, &quot;farbe&quot;)); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FARBE, &quot;text1&quot;))}) | //Farbe
+($FORM {$ = put($, &quot;form&quot;,$FORM); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FORM, &quot;text2&quot;))}) | //Form
+($POSITION {$ = put($, &quot;position&quot;,$POSITION); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($POSITION, &quot;text4&quot;))}))+); //Position
+
+
+// ========================= Farbe ==============================
+$FARBE = {$={text1=&quot;&quot;};} (
+		 rote{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; rote&quot;); $=put($, &quot;farbe&quot;, &quot;rot&quot;)}
+		|grüne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; gruene&quot;); $=put($, &quot;farbe&quot;, &quot;gruen&quot;)}
+		|blaue{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; blaue&quot;); $=put($, &quot;farbe&quot;, &quot;blau&quot;)}
+		|gelbe{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; gelbe&quot;); $=put($, &quot;farbe&quot;, &quot;gelb&quot;)}
+		|lila{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; lila&quot;);}[ne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot;ne&quot;)}]{ $=put($, &quot;farbe&quot;, &quot;lila&quot;)});
+
+// ======================= Form ====================================
+
+//Eine Form besteht aus einem Buchstaben und einer Manipulation
+$FORM = {$={text2=&quot;&quot;};} (
+	 $BUCHSTABE {$ = put($, &quot;Buchstabe&quot;, get($BUCHSTABE, &quot;buchstabe&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($BUCHSTABE, &quot;text16&quot;))}
+	| $MANIPULATION {$ = put($, &quot;Manipulation&quot;, get($MANIPULATION, &quot;manipulation&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($MANIPULATION, &quot;text17&quot;))}); 
+
+// === Buchstaben  ===
+	$BUCHSTABE = {$={text16=&quot;&quot;};} ( 
+	( $W {$ = put($, &quot;buchstabe&quot;, &quot;W&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($W, &quot;text3&quot;))} 
+	| $P {$ = put($, &quot;buchstabe&quot;, &quot;P&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($P, &quot;text3&quot;))}  
+	| $Z {$ = put($, &quot;buchstabe&quot;, &quot;Z&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Z, &quot;text3&quot;))}  
+	| $N {$ = put($, &quot;buchstabe&quot;, &quot;N&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($N, &quot;text3&quot;))}  
+	| $F {$ = put($, &quot;buchstabe&quot;, &quot;F&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($F, &quot;text3&quot;))}  
+	| $Y {$ = put($, &quot;buchstabe&quot;, &quot;Y&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Y, &quot;text3&quot;))}  
+	| $X {$ = put($, &quot;buchstabe&quot;, &quot;X&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($X, &quot;text3&quot;))}  
+	| $U {$ = put($, &quot;buchstabe&quot;, &quot;U&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($U, &quot;text3&quot;))}  
+	| $I {$ = put($, &quot;buchstabe&quot;, &quot;I&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($I, &quot;text3&quot;))}  
+	| $L {$ = put($, &quot;buchstabe&quot;, &quot;L&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($L, &quot;text3&quot;))}  
+	| $T {$ = put($, &quot;buchstabe&quot;, &quot;T&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($T, &quot;text3&quot;))}  
+	| $V {$ = put($, &quot;buchstabe&quot;, &quot;V&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($V, &quot;text3&quot;))}
+	[förmige Teil {$=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; förmige Teil&quot;)}] )
+		| ((Teil | Gnubbel | Baustein | Kiste | Steinchen | Klotz | Feld | Pömpel | Riegel | Ding) {$ = put($, &quot;buchstabe&quot;, &quot;null&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; Teil&quot;)} ));
+
+$W = {$={text3=&quot;&quot;};} (W {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; W&quot;)}
+	| M {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; M&quot;)}
+	| Schlange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Schlange&quot;)} );
+
+$P = {$={text3=&quot;&quot;};} (P {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; P&quot;)}
+	| Sessel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Sessel&quot;)}
+	| Stuhl {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stuhl&quot;)}
+	| Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quadrat&quot;)}
+	| Quader {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quader&quot;)}
+	| Viereck {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Viereck&quot;)} );
+
+$N = {$={text3=&quot;&quot;};} (N {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; N&quot;)}
+	| Vier {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Vier&quot;)} );
+
+$Z = {$={text3=&quot;&quot;};} (Z {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Z&quot;)}
+	| S {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; S&quot;)}
+	| Kurbel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kurbel&quot;)} );
+
+$F = {$={text3=&quot;&quot;};} (F {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; F&quot;)}
+	| Exoten {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Exoten&quot;)}
+	| kaputte T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; kaputtes T&quot;)}
+	| Wasserhahn {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Wasserhahn&quot;)} );
+
+$Y = {$={text3=&quot;&quot;};} (Y {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Y&quot;)}
+	| Hobel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Hobel&quot;)}
+	| halbe Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; halbe Kreuz&quot;)} );
+
+$X = {$={text3=&quot;&quot;};} (X {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; X&quot;)}
+	| Plus {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Plus&quot;)}
+	| Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kreuz&quot;)}
+	| Stern {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stern&quot;)} );
+
+$U = {$={text3=&quot;&quot;};} (U {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; U&quot;)}
+	| C {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; C&quot;)} );
+
+$I = {$={text3=&quot;&quot;};} (I {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; I&quot;)}
+	| Balken {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Balken&quot;)}
+	| Gerade {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Gerade&quot;)}
+	| Stange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stange&quot;)}
+	| Ohne Knick {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Ohne Knick&quot;)} );
+
+$L = {$={text3=&quot;&quot;};} (L {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; L&quot;)}
+	| längerer Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; längerer Schenkel&quot;)} );
+
+$T = {$={text3=&quot;&quot;};} (T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; T&quot;)} );
+
+$V = {$={text3=&quot;&quot;};} (V {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; V&quot;)}
+	| gleichschenkliger Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleichschenkliger Winkel&quot;)}
+	| rechter Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; rechter Winkel&quot;)}
+	| gleich lange Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleich lange Schenkel&quot;)}
+	| durch Diagonale geteilte Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; durch Diagonale geteilte Quadrat&quot;)} );
+
+
+//Manipulationen
+$MANIPULATION = {$={text17=&quot;&quot;};} (
+	 $m90 {$ = put($, &quot;manipulation&quot;, &quot;90&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m90, &quot;text171&quot;))} 
+	 | $m180 {$ = put($, &quot;manipulation&quot;, &quot;180&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m180, &quot;text171&quot;))}  
+	 | $m270 {$ = put($, &quot;manipulation&quot;, &quot;270&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m270, &quot;text171&quot;))} 
+	 | $gespiegelt {$ = put($, &quot;manipulation&quot;, &quot;-1&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($gespiegelt, &quot;text171&quot;))} )
+	 [gedreht | gekippt | liegend | gelegt | stehend | umgekippt];
+
+$m90 = {$={text171=&quot;&quot;};} (nach rechts {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; nach rechts&quot;)} );
+
+$m180 = {$={text171=&quot;&quot;};} (
+	umgedreht {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; umgedreht&quot;)} 
+	| umgekehrt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; umgekehrt&quot;)}  
+	| gekippt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; gekippt&quot;)}
+	| auf [dem|den] Kopf {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; auf dem Kopf&quot;)});
+
+$m270 = {$={text171=&quot;&quot;};} (
+	nach links {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; nach links&quot;)} 
+	| auf [den|dem] Rücken {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; auf dem Rücken&quot;)} );
+
+$gespiegelt = {$={text171=&quot;&quot;};} (gespiegelt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; gespiegelt&quot;)});
+
+// =================================== Positionen =============================
+
+//Eine Position besteht aus X und einer Y- Position
+$POSITION = {$={text4=&quot;&quot;};}  (
+	 $POSX {$ = put($, &quot;X&quot;, get($POSX, &quot;positionX&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSX, &quot;text6&quot;))}
+	| $POSY {$ = put($, &quot;Y&quot;, get($POSY, &quot;positionY&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSY, &quot;text7&quot;))}); 
+
+// Eine X Position ist eine von vier möglichen Spalten
+$POSX =  {$={text6=&quot;&quot;};} (
+	$SPALTE1 {$ = put($, &quot;positionX&quot; , &quot;Spalte 1&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE1, &quot;text8&quot;))} |
+	$SPALTE2 {$ = put($, &quot;positionX&quot; , &quot;Spalte 2&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE2, &quot;text9&quot;))} |
+	$SPALTE3 {$ = put($, &quot;positionX&quot; , &quot;Spalte 3&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE3, &quot;text10&quot;))} |
+	$SPALTE4 {$ = put($, &quot;positionX&quot; , &quot;Spalte 4&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE4, &quot;text11&quot;))})
+	[Reihe | Stelle | Spalte];
+
+// Eine Y Position´ist eine von vier möglichen Zeilen
+$POSY =  {$={text7=&quot;&quot;};} (
+	$ZEILE1 {$ = put($, &quot;positionY&quot; , &quot;Zeile 1&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE1, &quot;text12&quot;))} |
+	$ZEILE2 {$ = put($, &quot;positionY&quot; , &quot;Zeile 2&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE2, &quot;text13&quot;))} |
+	$ZEILE3 {$ = put($, &quot;positionY&quot; , &quot;Zeile 3&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE3, &quot;text14&quot;))} | 
+	$ZEILE4 {$ = put($, &quot;positionY&quot; , &quot;Zeile 4&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE4, &quot;text15&quot;))}); 
+
+// ==== Spalten ====
+$SPALTE1 = {$={text8=&quot;&quot;};} (
+		ganz links {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz links&quot;)}
+		| ganz vorne {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz vorne&quot;)}
+		| linke[n]+ Ecke {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linke Ecke&quot;)}
+		| linken {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linken&quot;)}
+		| links außen {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; links außen&quot;)}
+		| [aller]* linkeste {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linken&quot;)}
+		| [linke| linken | linkeste] Seite {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linke Seite&quot;)}
+		|  ganz am Anfang {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz am Anfang&quot;)});
+
+
+$SPALTE2 = {$={text9=&quot;&quot;};} (
+		zweite[r]+ von links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; zweite von links&quot;)}
+		| dritte von rechts {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; dritte von rechts&quot;)}
+		| Mitte links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; Mitte links&quot;)}
+		|  fast ganz links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; fast ganz links&quot;)});
+
+
+$SPALTE3 = {$={text10=&quot;&quot;};} (
+		dritte[r]+ von links {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; dritte von links&quot;)}
+		| zweite von rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; zweite von rechts&quot;)}
+		| Mitte rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; Mitte rechts&quot;)}
+		| fast ganz rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; fast ganz rechts&quot;)});
+
+
+$SPALTE4 = {$={text11=&quot;&quot;};} (
+		ganz rechts {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz rechts&quot;)}
+		| ganz hinten {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz hinten&quot;)}
+		| rechte Ecke {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechte Ecke&quot;)}
+		| [aller]* rechteste {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechteste&quot;)}
+		| [rechte | rechten | rechteste]+ Seite {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechte Seite&quot;)}
+		| rechtes außen {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechts außen&quot;)}
+		|  ganz am Ende {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz am Ende&quot;)});
+
+// ==== Zeilen ====
+
+$ZEILE1 = {$={text12=&quot;&quot;};} (
+		ganz oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ganz oben&quot;)}
+		| am weitesten oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; am weitesten oben&quot;)}
+		| ersten Zeile {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ersten Zeile&quot;)}
+		| höchste[n]+ {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; höchste&quot;)}
+		| obere Ecke {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; obere Ecke&quot;)}
+		| [aller]* oberste[n]+ {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; oberste&quot;)}
+		|  oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; oben&quot;)});
+
+
+$ZEILE2 = {$={text13=&quot;&quot;};} (
+		zweite von oben {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweite von oben&quot;)}
+		| zweit höchste {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweit höchste&quot;)}
+		| nach unten versetzt {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; nach unten versetzt&quot;)}
+		| dritte von unten {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; dritte von unten&quot;)}
+		| dritt unterste {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; dritt unterste&quot;)}
+		| [mitte|mittlere] oben {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; Mitte oben&quot;)}
+		|  zweiten Zeile {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweiten Zeile&quot;)});
+
+$ZEILE3 = {$={text14=&quot;&quot;};} (
+		dritte von oben {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritte von oben&quot;)}
+		| zweite von unten {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; zweite von unten&quot;)}
+		| zweit unterste {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; zweit unterste&quot;)}
+		| nach oben versetzt {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; nach oben versetzt&quot;)}
+		| dritt höchste {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritt höchste&quot;)}
+		| [mitte| mittlere] unten {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; Mmitte unten&quot;)}
+		| dritten Zeile {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritten Zeile&quot;)}); 
+
+
+$ZEILE4 = {$={text15=&quot;&quot;};} (
+		[ganz| am weitesten| weiteste] unten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; ganz unten&quot;)}
+		| vierten Zeile {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; vierten Zeile&quot;)}
+		| niedrigste[n]+ {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; niedrigste&quot;)}
+		| untere Ecke {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; untere Ecke&quot;)}
+		| [aller]* untersten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; unten&quot;)});</value>
+		</grammar>
+		<grammar id="6119ca72-2cad-11e1-8902-77a84f9e4955">
+			<name>Test</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Nimm|Nehme|Nehmen wir|Suche|Suchen] {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; Nimm&quot;);} //Beginn eines Satzes
+		(bitte {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; bitte&quot;);})* //Füllworte
+		[die {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; die&quot;);}| das {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; das&quot;);}]   //Artikel
+(($FARBE {$ = put($, &quot;farbe&quot;, get($FARBE, &quot;farbe&quot;)); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FARBE, &quot;text1&quot;))}) | //Farbe
+($FORM {$ = put($, &quot;form&quot;,$FORM); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FORM, &quot;text2&quot;))}) | //Form
+($POSITION {$ = put($, &quot;position&quot;,$POSITION); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($POSITION, &quot;text4&quot;))}))+); //Position
+
+$FARBE = ({$={text1=&quot;&quot;};} (
+		 rote{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; rote&quot;); $=put($, &quot;farbe&quot;, &quot;rot&quot;)}
+		|grüne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; grüne&quot;); $=put($, &quot;farbe&quot;, &quot;grün&quot;)}
+		|blaue{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; blaue&quot;); $=put($, &quot;farbe&quot;, &quot;blau&quot;)}
+		|gelbe{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; gelbe&quot;); $=put($, &quot;farbe&quot;, &quot;gelb&quot;)}
+		|lila{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; lila&quot;);}[ne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot;ne&quot;)}]{ $=put($, &quot;farbe&quot;, &quot;lila&quot;)}) );
+
+$FORM = {$={text2=&quot;&quot;};} (
+	 ($BUCHSTABE {$ = put($, &quot;Buchstabe&quot;, get($BUCHSTABE, &quot;buchstabe&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($BUCHSTABE, &quot;text16&quot;))}) 
+	| ($MANIPULATION {$ = put($, &quot;Manipulation&quot;, get($MANIPULATION, &quot;manipulation&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($MANIPULATION, &quot;text17&quot;))}))+; 
+
+
+// === Buchstaben  ===
+	$BUCHSTABE = {$={text16=&quot;&quot;};} ( 
+	( $W {$ = put($, &quot;buchstabe&quot;, &quot;W&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($W, &quot;text3&quot;))} 
+	| $P {$ = put($, &quot;buchstabe&quot;, &quot;P&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($P, &quot;text3&quot;))}  
+	| $Z {$ = put($, &quot;buchstabe&quot;, &quot;Z&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Z, &quot;text3&quot;))}  
+	| $N {$ = put($, &quot;buchstabe&quot;, &quot;N&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($N, &quot;text3&quot;))}  
+	| $F {$ = put($, &quot;buchstabe&quot;, &quot;F&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($F, &quot;text3&quot;))}  
+	| $Y {$ = put($, &quot;buchstabe&quot;, &quot;Y&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Y, &quot;text3&quot;))}  
+	| $X {$ = put($, &quot;buchstabe&quot;, &quot;X&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($X, &quot;text3&quot;))}  
+	| $U {$ = put($, &quot;buchstabe&quot;, &quot;U&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($U, &quot;text3&quot;))} 
+	| $I {$ = put($, &quot;buchstabe&quot;, &quot;I&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($I, &quot;text3&quot;))}  
+	| $L {$ = put($, &quot;buchstabe&quot;, &quot;L&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($L, &quot;text3&quot;))}  
+	| $T {$ = put($, &quot;buchstabe&quot;, &quot;T&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($T, &quot;text3&quot;))}  
+	| $V {$ = put($, &quot;buchstabe&quot;, &quot;V&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($V, &quot;text3&quot;))}
+	[förmige Teil {$=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; förmige Teil&quot;)}] )
+		| ((Teil | Gnubbel | Baustein | Kiste | Steinchen | Klotz | Feld | Pömpel | Riegel | Ding) {$ = put($, &quot;buchstabe&quot;, &quot;null&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; Teil&quot;)} ));
+
+$W = {$={text3=&quot;&quot;};} (W {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; W&quot;)}
+	| M {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; M&quot;)}
+	| Schlange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Schlange&quot;)} );
+
+$P = {$={text3=&quot;&quot;};} (P {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; P&quot;)}
+	| Sessel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Sessel&quot;)}
+	| Stuhl {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stuhl&quot;)}
+	| Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quadrat&quot;)}
+	| Quader {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quader&quot;)}
+	| Viereck {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Viereck&quot;)} );
+
+$N = {$={text3=&quot;&quot;};} (N {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; N&quot;)}
+	| Vier {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Vier&quot;)} );
+
+$Z = {$={text3=&quot;&quot;};} (Z {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Z&quot;)}
+	| S {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; S&quot;)}
+	| Kurbel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kurbel&quot;)} );
+
+$F = {$={text3=&quot;&quot;};} (F {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; F&quot;)}
+	| Exoten {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Exoten&quot;)}
+	| kaputte T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; kaputtes T&quot;)}
+	| Wasserhahn {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Wasserhahn&quot;)} );
+
+$Y = {$={text3=&quot;&quot;};} (Y {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Y&quot;)}
+	| Hobel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Hobel&quot;)}
+	| halbe Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; halbe Kreuz&quot;)} );
+
+$X = {$={text3=&quot;&quot;};} (X {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; X&quot;)}
+	| Plus {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Plus&quot;)}
+	| Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kreuz&quot;)}
+	| Stern {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stern&quot;)} );
+
+$U = {$={text3=&quot;&quot;};} (U {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; U&quot;)}
+	| C {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; C&quot;)} );
+
+$I = {$={text3=&quot;&quot;};} (I {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; I&quot;)}
+	| Balken {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Balken&quot;)}
+	| Gerade {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Gerade&quot;)}
+	| Stange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stange&quot;)}
+	| Ohne Knick {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Ohne Knick&quot;)} );
+
+$L = {$={text3=&quot;&quot;};} (L {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; L&quot;)}
+	| längerer Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; längerer Schenkel&quot;)} );
+
+$T = {$={text3=&quot;&quot;};} (T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; T&quot;)} );
+
+$V = {$={text3=&quot;&quot;};} (V {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; V&quot;)}
+	| gleichschenkliger Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleichschenkliger Winkel&quot;)}
+	| rechter Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; rechter Winkel&quot;)}
+	| gleich lange Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleich lange Schenkel&quot;)}
+	| durch Diagonale geteilte Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; durch Diagonale geteilte Quadrat&quot;)} );
+$MANIPULATION = {$={text17=&quot;&quot;};} (
+	 (nach rechts gedreht {$=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + &quot; nach rechts gedreht&quot;);$ = put($, &quot;manipulation&quot;, &quot;90&quot;)}) |
+	 (nach links gedreht {$=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + &quot; nach links gedreht&quot;);$ = put($, &quot;manipulation&quot;, &quot;270&quot;)}) |
+	 (auf dem Kopf {$=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + &quot; auf dem Kopf&quot;);$ = put($, &quot;manipulation&quot;, &quot;180&quot;)}) |
+	 (gespiegelt {$=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + &quot; gespiegelt&quot;);$ = put($, &quot;manipulation&quot;, &quot;-1&quot;)}) );
+
+$POSITION = {$={text4=&quot;&quot;};} (
+	 ($POSX {$ = put($, &quot;X&quot;, get($POSX, &quot;positionX&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSX, &quot;text6&quot;))}) 
+	| ($POSY {$ = put($, &quot;Y&quot;, get($POSY, &quot;positionY&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSY, &quot;text7&quot;))}))+; 
+
+$POSX =  {$={text6=&quot;&quot;};} (
+	$SPALTE1 {$ = put($, &quot;positionX&quot; , &quot;Spalte 1&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE1, &quot;text8&quot;))} |
+	$SPALTE2 {$ = put($, &quot;positionX&quot; , &quot;Spalte 2&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE2, &quot;text9&quot;))} |
+	$SPALTE3 {$ = put($, &quot;positionX&quot; , &quot;Spalte 3&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE3, &quot;text10&quot;))} |
+	$SPALTE4 {$ = put($, &quot;positionX&quot; , &quot;Spalte 4&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE4, &quot;text11&quot;))});
+
+$POSY =  {$={text7=&quot;&quot;};} (
+	$ZEILE1 {$ = put($, &quot;positionY&quot; , &quot;Zeile 1&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE1, &quot;text12&quot;))} |
+	$ZEILE2 {$ = put($, &quot;positionY&quot; , &quot;Zeile 2&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE2, &quot;text13&quot;))} |
+	$ZEILE3 {$ = put($, &quot;positionY&quot; , &quot;Zeile 3&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE3, &quot;text14&quot;))} |
+	$ZEILE4 {$ = put($, &quot;positionY&quot; , &quot;Zeile 4&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE4, &quot;text15&quot;))});
+
+$SPALTE1 = {$={text8=&quot;&quot;};} (
+		ganz links {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz links&quot;)}
+		| ganz vorne {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz vorne&quot;)}
+		|  ganz am Anfang {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz am Anfang&quot;)});
+
+
+$SPALTE2 = {$={text9=&quot;&quot;};} (
+		zweite von links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; zweite von links&quot;)}
+		| dritte von rechts {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; dritte von rechts&quot;)}
+		|  fast ganz links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; fast ganz links&quot;)});
+
+
+$SPALTE3 = {$={text10=&quot;&quot;};} (
+		dritte von links {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; dritte von links&quot;)}
+		| zweite von rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; zweite von rechts&quot;)}
+		| fast ganz rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; fast ganz rechts&quot;)});
+
+
+$SPALTE4 = {$={text11=&quot;&quot;};} (
+		ganz rechts {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz rechts&quot;)}
+		| ganz hinten {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz hinten&quot;)}
+		|  ganz am Ende {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz am Ende&quot;)});
+
+$ZEILE1 = {$={text12=&quot;&quot;};} (
+		ganz oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ganz oben&quot;)}
+		| ersten Zeile {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ersten Zeile&quot;)}
+		|  oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; oben&quot;)});
+
+
+$ZEILE2 = {$={text13=&quot;&quot;};} (
+		zweite von oben {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweite von oben&quot;)}
+		| dritte von unten {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; dritte von unten&quot;)}
+		|  zweiten Zeile {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweiten Zeile&quot;)});
+
+
+$ZEILE3 = {$={text14=&quot;&quot;};} (
+		dritte von oben {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritte von oben&quot;)}
+		| zweite von unten {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; zweite von unten&quot;)}
+		| dritten Zeile {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritten Zeile&quot;)});
+
+
+$ZEILE4 = {$={text15=&quot;&quot;};} (
+		ganz unten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; ganz unten&quot;)}
+		| vierten Zeile {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; vierten Zeile&quot;)}
+		|  unten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; unten&quot;)});</value>
+		</grammar>
+		<grammar id="53ae6c76-3d30-11e1-9280-0deee7d2c939">
+			<name>Janein</name>
+			<value>language &quot;Deutsch&quot;;
+root $janein;
+
+$janein = $ja {$ = &quot;ja&quot;} | $nein {$= &quot;nein&quot;};
+
+$ja = &quot;Ja&quot; | &quot;Jo&quot; | &quot;Joa&quot; | &quot;Jawohl&quot; | &quot;aye aye&quot; | &quot;genau&quot; | &quot;klar&quot;;
+$nein = &quot;nein&quot; | &quot;noe&quot; | &quot;nee&quot; | &quot;auf keinen Fall&quot; | &quot;garantiert nicht&quot;;
+</value>
+		</grammar>
+		<grammar id="53ae6c77-3d30-11e1-9280-0deee7d2c939">
+			<name>Farbe</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Es ist|Das Teil ist|Die Farbe ist] //Füllworte
+		($FARBE {$ = put($, &quot;farbe&quot;, get($FARBE, &quot;farbe&quot;)); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FARBE, &quot;text1&quot;))}));
+
+
+// ========================= Farbe ==============================
+$FARBE = {$={text1=&quot;&quot;};} (
+		 rote{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; rote&quot;); $=put($, &quot;farbe&quot;, &quot;rot&quot;)}
+		|grüne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; gruene&quot;); $=put($, &quot;farbe&quot;, &quot;gruen&quot;)}
+		|blaue{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; blaue&quot;); $=put($, &quot;farbe&quot;, &quot;blau&quot;)}
+		|gelbe{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; gelbe&quot;); $=put($, &quot;farbe&quot;, &quot;gelb&quot;)}
+		|lila{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; lila&quot;);}[ne{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot;ne&quot;)}]{ $=put($, &quot;farbe&quot;, &quot;lila&quot;)});
+
+</value>
+		</grammar>
+		<grammar id="53ae6c78-3d30-11e1-9280-0deee7d2c939">
+			<name>Zeile</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Es ist in der| Es liegt| Es befindet sich| Das in der| In der] //Füllworte
+		($POSITION {$ = put($, &quot;position&quot;,$POSITION); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($POSITION, &quot;text4&quot;))})
+		[Zeile]); //Position
+
+
+
+//Eine Position besteht aus X und einer Y- Position
+$POSITION = {$={text4=&quot;&quot;};}  (
+	$POSY {$ = put($, &quot;Y&quot;, get($POSY, &quot;positionY&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSY, &quot;text7&quot;))}); 
+
+// Eine Y Position´ist eine von vier möglichen Zeilen
+$POSY =  {$={text7=&quot;&quot;};} (
+	$ZEILE1 {$ = put($, &quot;positionY&quot; , &quot;Zeile 1&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE1, &quot;text12&quot;))} |
+	$ZEILE2 {$ = put($, &quot;positionY&quot; , &quot;Zeile 2&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE2, &quot;text13&quot;))} |
+	$ZEILE3 {$ = put($, &quot;positionY&quot; , &quot;Zeile 3&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE3, &quot;text14&quot;))} | 
+	$ZEILE4 {$ = put($, &quot;positionY&quot; , &quot;Zeile 4&quot;); $=put($, &quot;text7&quot;, get($, &quot;text7&quot;) + get($ZEILE4, &quot;text15&quot;))}); 
+
+// ==== Zeilen ====
+$ZEILE1 = {$={text12=&quot;&quot;};} (
+		ganz oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ganz oben&quot;)}
+		| am weitesten oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; am weitesten oben&quot;)}
+		| ersten Zeile {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; ersten Zeile&quot;)}
+		| höchste[n]+ {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; höchste&quot;)}
+		| oberen [Ecke] {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; obere&quot;)}
+		| [aller]* oberste[n]+ {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; oberste&quot;)}
+		|  oben {$=put($, &quot;text12&quot;, get($, &quot;text12&quot;) + &quot; oben&quot;)});
+
+
+$ZEILE2 = {$={text13=&quot;&quot;};} (
+		zweite[n] von oben {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweite von oben&quot;)}
+		| zweit höchste[n] {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweit höchste&quot;)}
+		| nach unten versetzt {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; nach unten versetzt&quot;)}
+		| dritte[n] von unten {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; dritte von unten&quot;)}
+		| dritt unterste[n] {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; dritt unterste&quot;)}
+		| [mitte|mittlere] oben {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; Mitte oben&quot;)}
+		|  zweiten Zeile {$=put($, &quot;text13&quot;, get($, &quot;text13&quot;) + &quot; zweiten Zeile&quot;)});
+
+$ZEILE3 = {$={text14=&quot;&quot;};} (
+		dritte[n] von oben {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritte von oben&quot;)}
+		| zweite[n] von unten {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; zweite von unten&quot;)}
+		| zweit unterste[n] {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; zweit unterste&quot;)}
+		| nach oben versetzt {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; nach oben versetzt&quot;)}
+		| dritt höchste[n] {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritt höchste&quot;)}
+		| [mitte| mittlere] unten {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; Mmitte unten&quot;)}
+		| dritten Zeile {$=put($, &quot;text14&quot;, get($, &quot;text14&quot;) + &quot; dritten Zeile&quot;)}); 
+
+
+$ZEILE4 = {$={text15=&quot;&quot;};} (
+		[ganz| am weitesten| weiteste] unten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; ganz unten&quot;)}
+		| vierten Zeile {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; vierten Zeile&quot;)}
+		| niedrigste[n]+ {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; niedrigste&quot;)}
+		| untere Ecke {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; untere Ecke&quot;)}
+		| [aller]* untersten {$=put($, &quot;text15&quot;, get($, &quot;text15&quot;) + &quot; unten&quot;)});</value>
+		</grammar>
+		<grammar id="53af08b9-3d30-11e1-9280-0deee7d2c939">
+			<name>Spalte</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Es ist in der| Es liegt| Es befindet sich| Das in der| In der] //Füllworte
+		($POSITION {$ = put($, &quot;position&quot;,$POSITION); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($POSITION, &quot;text4&quot;))})
+		[Zeile]); //Position
+
+
+
+//Eine Position besteht aus X und einer Y- Position
+$POSITION = {$={text4=&quot;&quot;};}  (
+	$POSX {$ = put($, &quot;X&quot;, get($POSX, &quot;positionY&quot;)); $=put($, &quot;text4&quot;, get($, &quot;text4&quot;) + get($POSX, &quot;text7&quot;))}); 
+
+// Eine X Position ist eine von vier möglichen Spalten
+$POSX =  {$={text6=&quot;&quot;};} (
+	$SPALTE1 {$ = put($, &quot;positionX&quot; , &quot;Spalte 1&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE1, &quot;text8&quot;))} |
+	$SPALTE2 {$ = put($, &quot;positionX&quot; , &quot;Spalte 2&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE2, &quot;text9&quot;))} |
+	$SPALTE3 {$ = put($, &quot;positionX&quot; , &quot;Spalte 3&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE3, &quot;text10&quot;))} |
+	$SPALTE4 {$ = put($, &quot;positionX&quot; , &quot;Spalte 4&quot;); $=put($, &quot;text6&quot;, get($, &quot;text6&quot;) + get($SPALTE4, &quot;text11&quot;))})
+	[Reihe | Stelle | Spalte];
+// ==== Spalten ====
+$SPALTE1 = {$={text8=&quot;&quot;};} (
+		ganz links {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz links&quot;)}
+		| ganz vorne {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz vorne&quot;)}
+		| linke[n]+ Ecke {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linke Ecke&quot;)}
+		| linken {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linken&quot;)}
+		| links außen {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; links außen&quot;)}
+		| [aller]* linkeste {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linken&quot;)}
+		| [linke| linken | linkeste] Seite {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; linke Seite&quot;)}
+		|  ganz am Anfang {$=put($, &quot;text8&quot;, get($, &quot;text8&quot;) + &quot; ganz am Anfang&quot;)});
+
+
+$SPALTE2 = {$={text9=&quot;&quot;};} (
+		zweite[r]+ von links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; zweite von links&quot;)}
+		| dritte von rechts {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; dritte von rechts&quot;)}
+		| Mitte links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; Mitte links&quot;)}
+		|  fast ganz links {$=put($, &quot;text9&quot;, get($, &quot;text9&quot;) + &quot; fast ganz links&quot;)});
+
+
+$SPALTE3 = {$={text10=&quot;&quot;};} (
+		dritte[r]+ von links {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; dritte von links&quot;)}
+		| zweite von rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; zweite von rechts&quot;)}
+		| Mitte rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; Mitte rechts&quot;)}
+		| fast ganz rechts {$=put($, &quot;text10&quot;, get($, &quot;text10&quot;) + &quot; fast ganz rechts&quot;)});
+
+
+$SPALTE4 = {$={text11=&quot;&quot;};} (
+		ganz rechts {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz rechts&quot;)}
+		| ganz hinten {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz hinten&quot;)}
+		| rechte Ecke {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechte Ecke&quot;)}
+		| [aller]* rechteste {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechteste&quot;)}
+		| [rechte | rechten | rechteste]+ Seite {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechte Seite&quot;)}
+		| rechtes außen {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; rechts außen&quot;)}
+		|  ganz am Ende {$=put($, &quot;text11&quot;, get($, &quot;text11&quot;) + &quot; ganz am Ende&quot;)});
+</value>
+		</grammar>
+		<grammar id="5b6c7c50-482d-11e1-883a-6b3bf2f520cb">
+			<name>Form</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Es ist|Das Teil ist|Die Farbe ist] //Füllworte
+		($FORM {$ = put($, &quot;form&quot;, $FORM); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + get($FORM, &quot;text2&quot;))}));
+
+
+// ========================= FORM ==============================
+$FORM = {$={text2=&quot;&quot;};} (
+	 $BUCHSTABE {$ = put($, &quot;Buchstabe&quot;, get($BUCHSTABE, &quot;buchstabe&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($BUCHSTABE, &quot;text16&quot;))}
+	| $MANIPULATION {$ = put($, &quot;Manipulation&quot;, get($MANIPULATION, &quot;manipulation&quot;)); $=put($, &quot;text2&quot;, get($, &quot;text2&quot;) + get($MANIPULATION, &quot;text17&quot;))}); 
+
+// === Buchstaben  ===
+	$BUCHSTABE = {$={text16=&quot;&quot;};} ( 
+	( $W {$ = put($, &quot;buchstabe&quot;, &quot;W&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($W, &quot;text3&quot;))} 
+	| $P {$ = put($, &quot;buchstabe&quot;, &quot;P&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($P, &quot;text3&quot;))}  
+	| $Z {$ = put($, &quot;buchstabe&quot;, &quot;Z&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Z, &quot;text3&quot;))}  
+	| $N {$ = put($, &quot;buchstabe&quot;, &quot;N&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($N, &quot;text3&quot;))}  
+	| $F {$ = put($, &quot;buchstabe&quot;, &quot;F&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($F, &quot;text3&quot;))}  
+	| $Y {$ = put($, &quot;buchstabe&quot;, &quot;Y&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($Y, &quot;text3&quot;))}  
+	| $X {$ = put($, &quot;buchstabe&quot;, &quot;X&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($X, &quot;text3&quot;))}  
+	| $U {$ = put($, &quot;buchstabe&quot;, &quot;U&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($U, &quot;text3&quot;))}  
+	| $I {$ = put($, &quot;buchstabe&quot;, &quot;I&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($I, &quot;text3&quot;))}  
+	| $L {$ = put($, &quot;buchstabe&quot;, &quot;L&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($L, &quot;text3&quot;))}  
+	| $T {$ = put($, &quot;buchstabe&quot;, &quot;T&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($T, &quot;text3&quot;))}  
+	| $V {$ = put($, &quot;buchstabe&quot;, &quot;V&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + get($V, &quot;text3&quot;))}
+	[förmige Teil {$=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; förmige Teil&quot;)}] )
+		| ((Teil | Gnubbel | Baustein | Kiste | Steinchen | Klotz | Feld | Pömpel | Riegel | Ding) {$ = put($, &quot;buchstabe&quot;, &quot;null&quot;); $=put($, &quot;text16&quot;, get($, &quot;text16&quot;) + &quot; Teil&quot;)} ));
+
+$W = {$={text3=&quot;&quot;};} (W {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; W&quot;)}
+	| M {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; M&quot;)}
+	| Schlange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Schlange&quot;)} );
+
+$P = {$={text3=&quot;&quot;};} (P {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; P&quot;)}
+	| Sessel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Sessel&quot;)}
+	| Stuhl {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stuhl&quot;)}
+	| Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quadrat&quot;)}
+	| Quader {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Quader&quot;)}
+	| Viereck {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Viereck&quot;)} );
+
+$N = {$={text3=&quot;&quot;};} (N {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; N&quot;)}
+	| Vier {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Vier&quot;)} );
+
+$Z = {$={text3=&quot;&quot;};} (Z {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Z&quot;)}
+	| S {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; S&quot;)}
+	| Kurbel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kurbel&quot;)} );
+
+$F = {$={text3=&quot;&quot;};} (F {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; F&quot;)}
+	| Exoten {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Exoten&quot;)}
+	| kaputte T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; kaputtes T&quot;)}
+	| Wasserhahn {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Wasserhahn&quot;)} );
+
+$Y = {$={text3=&quot;&quot;};} (Y {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Y&quot;)}
+	| Hobel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Hobel&quot;)}
+	| halbe Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; halbe Kreuz&quot;)} );
+
+$X = {$={text3=&quot;&quot;};} (X {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; X&quot;)}
+	| Plus {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Plus&quot;)}
+	| Kreuz {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Kreuz&quot;)}
+	| Stern {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stern&quot;)} );
+
+$U = {$={text3=&quot;&quot;};} (U {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; U&quot;)}
+	| C {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; C&quot;)} );
+
+$I = {$={text3=&quot;&quot;};} (I {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; I&quot;)}
+	| Balken {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Balken&quot;)}
+	| Gerade {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Gerade&quot;)}
+	| Stange {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Stange&quot;)}
+	| Ohne Knick {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; Ohne Knick&quot;)} );
+
+$L = {$={text3=&quot;&quot;};} (L {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; L&quot;)}
+	| längerer Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; längerer Schenkel&quot;)} );
+
+$T = {$={text3=&quot;&quot;};} (T {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; T&quot;)} );
+
+$V = {$={text3=&quot;&quot;};} (V {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; V&quot;)}
+	| gleichschenkliger Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleichschenkliger Winkel&quot;)}
+	| rechter Winkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; rechter Winkel&quot;)}
+	| gleich lange Schenkel {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; gleich lange Schenkel&quot;)}
+	| durch Diagonale geteilte Quadrat {$=put($, &quot;text3&quot;, get($, &quot;text3&quot;) + &quot; durch Diagonale geteilte Quadrat&quot;)} );
+
+
+//Manipulationen
+$MANIPULATION = {$={text17=&quot;&quot;};} (
+	 $m90 {$ = put($, &quot;manipulation&quot;, &quot;90&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m90, &quot;text171&quot;))} 
+	 | $m180 {$ = put($, &quot;manipulation&quot;, &quot;180&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m180, &quot;text171&quot;))}  
+	 | $m270 {$ = put($, &quot;manipulation&quot;, &quot;270&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($m270, &quot;text171&quot;))} 
+	 | $gespiegelt {$ = put($, &quot;manipulation&quot;, &quot;-1&quot;); $=put($, &quot;text17&quot;, get($, &quot;text17&quot;) + get($gespiegelt, &quot;text171&quot;))} )
+	 [gedreht | gekippt | liegend | gelegt | stehend | umgekippt];
+
+$m90 = {$={text171=&quot;&quot;};} (nach rechts {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; nach rechts&quot;)} );
+
+$m180 = {$={text171=&quot;&quot;};} (
+	umgedreht {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; umgedreht&quot;)} 
+	| umgekehrt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; umgekehrt&quot;)}  
+	| gekippt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; gekippt&quot;)}
+	| auf [dem|den] Kopf {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; auf dem Kopf&quot;)});
+
+$m270 = {$={text171=&quot;&quot;};} (
+	nach links {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; nach links&quot;)} 
+	| auf [den|dem] Rücken {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; auf dem Rücken&quot;)} );
+
+$gespiegelt = {$={text171=&quot;&quot;};} (gespiegelt {$=put($, &quot;text171&quot;, get($, &quot;text171&quot;) + &quot; gespiegelt&quot;)});
+</value>
+		</grammar>
+		<grammar id="5b6c7c51-482d-11e1-883a-6b3bf2f520cb">
+			<name>Platzierung</name>
+			<value>language &quot;Deutsch&quot;;
+root $ROOT;
+
+$ROOT = {$={text=&quot;&quot;};} (
+		[Lege es in | Tu es in] {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; Lege&quot;);} //Beginn eines Satzes
+		[doch] [mal] //Füllworte
+		(bitte {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; bitte&quot;);})* //Füllworte
+		( die {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; die&quot;);}| das {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; das&quot;);} | den {$=put($, &quot;text&quot;, get($, &quot;text&quot;) + &quot; den&quot;);})*   //Artikel
+		($Ort {$ = put($, &quot;ort&quot;,$Ort); $ = put($, &quot;text&quot;, get($, &quot;text&quot;) + $Ort)})+);
+		
+
+
+// ========================= Ort ==============================
+$Ort = //{$={text1=&quot;&quot;};}
+ (
+		Rüssel //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruessel&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruessel&quot;)}
+		|Hinterkopf //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterkopf&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterkopf&quot;)}
+		|Stirn // {$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Stirn&quot;) ; $=put($, &quot;farbe&quot;, &quot;Stirn&quot;)}
+		|Vorderbein //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Vorderbein&quot;) ; $=put($, &quot;farbe&quot;, &quot;Vorderbein&quot;)}
+		|Hinterteil //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterteil&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterteil&quot;)}
+		|Hinterbein // {$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Hinterbein&quot;) ; $=put($, &quot;farbe&quot;, &quot;Hinterbein&quot;)}
+		|Rücken //{$=put($, &quot;text1&quot;, get($, &quot;text1&quot;) + &quot; Ruecken&quot;) ; $=put($, &quot;farbe&quot;, &quot;Ruecken&quot;)}
+);
+
+</value>
+		</grammar>
+		<variable uid="1109997b-16bc-11e1-a396-51af591feb54">
+			<name>teilbeschreibung</name>
+			<type>struct</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="0cbb16ff-3d24-11e1-a4df-91a9b7f5f24e">
+			<name>response</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="53af08ba-3d30-11e1-9280-0deee7d2c939">
+			<name>janein</name>
+			<type>string</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="53af08bb-3d30-11e1-9280-0deee7d2c939">
+			<name>zaehler</name>
+			<type>int</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="d62cd662-3d31-11e1-9280-0deee7d2c939">
+			<name>Ausgabe</name>
+			<type>string</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="0013b1fc-42b5-11e1-8453-9b9974173cb6">
+			<name>unique</name>
+			<type>string</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="0013b1fd-42b5-11e1-8453-9b9974173cb6">
+			<name>askList</name>
+			<type>list</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="e11be155-42b5-11e1-8453-9b9974173cb6">
+			<name>teilbeschreibung2</name>
+			<type>struct</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="5b6c7c52-482d-11e1-883a-6b3bf2f520cb">
+			<name>Komando</name>
+			<type>struct</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<variable uid="5b6c7c53-482d-11e1-883a-6b3bf2f520cb">
+			<name>response2</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="5b6c7c54-482d-11e1-883a-6b3bf2f520cb">
+			<name>platzbeschreibung</name>
+			<type>struct</type>
+			<value>undefined</value>
+			<export/>
+		</variable>
+		<node uid="0013b1fe-42b5-11e1-8453-9b9974173cb6" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="478" y="194" fill="#00b200"/>
+			<att name="title" type="string" value="Time"/>
+			<att name="voice" type="string" value="Daniel"/>
+			<att name="prompt" type="text">
+				<value>Time</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="0013b1ff-42b5-11e1-8453-9b9974173cb6" class="ConditionalNode">
+			<graphics x="885" y="355" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Color?"/>
+			<att name="expression" type="string" value="More(response)==&quot;color&quot;"/>
+		</node>
+		<node uid="0013b200-42b5-11e1-8453-9b9974173cb6" class="ConditionalNode">
+			<graphics x="1008" y="357" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Form?"/>
+			<att name="expression" type="string" value="More(response)==&quot;form&quot;"/>
+		</node>
+		<node uid="0013b201-42b5-11e1-8453-9b9974173cb6" class="ConditionalNode">
+			<graphics x="1119" y="363" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Zeile?"/>
+			<att name="expression" type="string" value="More(response)==&quot;row&quot;"/>
+		</node>
+		<node uid="0013b202-42b5-11e1-8453-9b9974173cb6" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="875" y="456" fill="#00b200"/>
+			<att name="title" type="string" value="Color"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>&quot;Welche Farbe hat das &quot; + Gesagtes(teilbeschreibung) + &quot; denn?&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="0013b203-42b5-11e1-8453-9b9974173cb6" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="875" y="526" fill="#b20000"/>
+			<att name="title" type="string" value="Farbe"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53ae6c77-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="0013b204-42b5-11e1-8453-9b9974173cb6" class="ScriptNode">
+			<graphics x="1027" y="614" fill="#99ffff"/>
+			<att name="title" type="string" value="Merge"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="script" type="text">
+				<value>teilbeschreibung = merge(teilbeschreibung, teilbeschreibung2);</value>
+			</att>
+		</node>
+		<node uid="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e" class="InputNode">
+			<graphics x="674" y="230" fill="#ff5a5a"/>
+			<att name="title" type="string" value="Teilbeschreibung"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="output" type="list">
+				<att name="0cb375de-3d24-11e1-a4df-91a9b7f5f24e" type="list">
+					<att name="Text" type="string" value="teilbeschreibung"/>
+				</att>
+			</att>
+			<att name="reset" type="boolean" value="0"/>
+			<att name="wait" type="boolean" value="0"/>
+			<att name="discard" type="boolean" value="0"/>
+			<att name="ignoreInputHandlers" type="boolean" value="0"/>
+		</node>
+		<node uid="1109997c-16bc-11e1-a396-51af591feb54" class="StartNode">
+			<graphics x="678" y="10" fill="#9999ff"/>
+			<att name="title" type="string" value="Start"/>
+		</node>
+		<node uid="1109997d-16bc-11e1-a396-51af591feb54" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="680" y="175" fill="#b20000"/>
+			<att name="title" type="string" value="Alles"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="timeout" type="string" value="10000"/>
+			<att name="threshold" type="integer" value="50"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="11099979-16bc-11e1-a396-51af591feb54"/>
+		</node>
+		<node uid="4ac22794-3d33-11e1-9280-0deee7d2c939" class="ConditionalNode">
+			<graphics x="679" y="282" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Success?"/>
+			<att name="expression" type="string" value="get(response, &quot;result&quot;)==&quot;success&quot;"/>
+		</node>
+		<node uid="4ac22795-3d33-11e1-9280-0deee7d2c939" class="ConditionalNode">
+			<graphics x="750" y="333" fill="#c0c0c0"/>
+			<att name="title" type="string" value="None?"/>
+			<att name="expression" type="string" value="get(response, &quot;result&quot;)==&quot;none&quot;"/>
+		</node>
+		<node uid="53af08bd-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="346" y="385" fill="#00b200"/>
+			<att name="title" type="string" value="Success"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Meinten Sie diesen Baustein?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08be-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="347" y="456" fill="#b20000"/>
+			<att name="title" type="string" value="JaNein"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53ae6c76-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="53af08bf-3d30-11e1-9280-0deee7d2c939" class="TestVariableNode">
+			<graphics x="348" y="520" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Nein o. Ja"/>
+			<att name="var_uid" type="string" value="53af08ba-3d30-11e1-9280-0deee7d2c939"/>
+			<att name="var_name" type="string" value="janein"/>
+		</node>
+		<node uid="53af08c0-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="673" y="818" fill="#00b200"/>
+			<att name="title" type="string" value="Ja"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Alles klar. Wo soll ich den Baustein denn plazieren?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c2-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="338" y="719" fill="#00b200"/>
+			<att name="title" type="string" value="Nein"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Oh, tut mir leid. Dann erklären Sie mir den Baustein bitte noch einmal.
+</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c3-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="417" y="260" fill="#00b200"/>
+			<att name="title" type="string" value="None-1"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Ich weiß leider nicht welches Teil Sie meinen. Beschreiben Sie es doch noch einmal.</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c4-3d30-11e1-9280-0deee7d2c939" class="SetVariableNode">
+			<graphics x="679" y="64" fill="#c0c0c0"/>
+			<att name="title" type="string" value="zaehler=0"/>
+			<att name="assignments" type="list">
+				<att name="1" type="list">
+					<att name="var_uid" type="string" value="53af08bb-3d30-11e1-9280-0deee7d2c939"/>
+					<att name="var_value" type="string" value="0"/>
+				</att>
+			</att>
+			<att name="simultaneous" type="boolean" value="0"/>
+		</node>
+		<node uid="53af08c5-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="680" y="119" fill="#00b200"/>
+			<att name="title" type="string" value="Beginn"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Welchen Baustein soll ich nehmen?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c6-3d30-11e1-9280-0deee7d2c939" class="TestVariableNode">
+			<graphics x="638" y="448" fill="#c0c0c0"/>
+			<att name="title" type="string" value="zaehler"/>
+			<att name="var_uid" type="string" value="53af08bb-3d30-11e1-9280-0deee7d2c939"/>
+			<att name="var_name" type="string" value="zaehler"/>
+		</node>
+		<node uid="53af08c7-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="515" y="259" fill="#00b200"/>
+			<att name="title" type="string" value="None-2"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Ich habe Sie immernoch nicht verstanden. Beschreiben Sie den Baustein doch noch einmal mit anderen Worten.</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c8-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="615" y="533" fill="#00b200"/>
+			<att name="title" type="string" value="None-3"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Versuchen wir es mal anders. Welche Farbe hat das Teil denn?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af08c9-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="609" y="624" fill="#b20000"/>
+			<att name="title" type="string" value="Farbe"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="grammar" type="string" value="53ae6c77-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="53af2fda-3d30-11e1-9280-0deee7d2c939" class="SetVariableNode">
+			<graphics x="672" y="387" fill="#c0c0c0"/>
+			<att name="title" type="string" value="zaehler + 1"/>
+			<att name="assignments" type="list">
+				<att name="1" type="list">
+					<att name="var_uid" type="string" value="53af08bb-3d30-11e1-9280-0deee7d2c939"/>
+					<att name="var_value" type="string" value="zaehler+1"/>
+				</att>
+			</att>
+			<att name="simultaneous" type="boolean" value="0"/>
+		</node>
+		<node uid="53af2fdb-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="694" y="531" fill="#00b200"/>
+			<att name="title" type="string" value="None-4-1"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Ich weiß nicht, welche Farbe Sie meinen. An welcher Zeile befindet sich der Baustein?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af2fdc-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="694" y="604" fill="#b20000"/>
+			<att name="title" type="string" value="Zeile"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53ae6c78-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="53af2fdd-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="694" y="678" fill="#00b200"/>
+			<att name="title" type="string" value="None-4-2"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Und in welcher Spalte?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af2fde-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="694" y="740" fill="#b20000"/>
+			<att name="title" type="string" value="Spalte"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="grammar" type="string" value="53af08b9-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="53af2fdf-3d30-11e1-9280-0deee7d2c939" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="780" y="530" fill="#00b200"/>
+			<att name="title" type="string" value="None-5"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Wie wäre es, wenn Sie einfach mal Ihren Nachbarn an das Mikro lassen. Mit Ihnen gebe ich es jedenfalls auf.</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="53af2fe0-3d30-11e1-9280-0deee7d2c939" class="SetVariableNode">
+			<graphics x="790" y="593" fill="#c0c0c0"/>
+			<att name="title" type="string" value="zaehler = 0"/>
+			<att name="assignments" type="list">
+				<att name="1" type="list">
+					<att name="var_uid" type="string" value="53af08bb-3d30-11e1-9280-0deee7d2c939"/>
+					<att name="var_value" type="string" value="0"/>
+				</att>
+			</att>
+			<att name="simultaneous" type="boolean" value="0"/>
+		</node>
+		<node uid="5b6c7c55-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="998" y="457" fill="#00b200"/>
+			<att name="title" type="string" value="Form"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>&quot;Welche Form hat das &quot; + Gesagtes(teilbeschreibung) + &quot; denn?&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c56-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="1109" y="456" fill="#00b200"/>
+			<att name="title" type="string" value="Zeile"/>
+			<att name="prompt" type="text">
+				<value>&quot;In welcher Zeile ist das &quot; + Gesagtes(teilbeschreibung) + &quot; denn?&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c58-482d-11e1-883a-6b3bf2f520cb" class="ScriptNode">
+			<graphics x="336" y="594" fill="#99ffff"/>
+			<att name="title" type="string" value="Deselect"/>
+			<att name="script" type="text">
+				<value>Komando = {command=&quot;deselect&quot;};
+//Komando = put(Komando, &quot;command&quot;, &quot;deselect&quot;);</value>
+			</att>
+		</node>
+		<node uid="5b6c7c59-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="999" y="527" fill="#b20000"/>
+			<att name="title" type="string" value="Form"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="5b6c7c50-482d-11e1-883a-6b3bf2f520cb"/>
+		</node>
+		<node uid="5b6c7c5a-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="1109" y="525" fill="#b20000"/>
+			<att name="title" type="string" value="Zeile"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53ae6c78-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="5b6c7c5b-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="1204" y="524" fill="#b20000"/>
+			<att name="title" type="string" value="Spalte"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53af08b9-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="5b6c7c5c-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="1204" y="455" fill="#00b200"/>
+			<att name="title" type="string" value="Spalte"/>
+			<att name="prompt" type="text">
+				<value>&quot;In welcher Spalte ist das &quot; + Gesagtes(teilbeschreibung) + &quot; denn?&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="656" y="887" fill="#b20000"/>
+			<att name="title" type="string" value="Spracherkennung"/>
+			<att name="timeout" type="string" value="10000"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="5b6c7c51-482d-11e1-883a-6b3bf2f520cb"/>
+		</node>
+		<node uid="5b6c7c5e-482d-11e1-883a-6b3bf2f520cb" class="InputNode">
+			<graphics x="647" y="1034" fill="#ff5a5a"/>
+			<att name="title" type="string" value="Positionsbeschreibung"/>
+			<att name="output" type="list">
+				<att name="0cb375de-3d24-11e1-a4df-91a9b7f5f24e" type="list">
+					<att name="Text" type="string" value="Komando"/>
+				</att>
+			</att>
+			<att name="reset" type="boolean" value="0"/>
+			<att name="wait" type="boolean" value="0"/>
+			<att name="discard" type="boolean" value="0"/>
+			<att name="ignoreInputHandlers" type="boolean" value="0"/>
+		</node>
+		<node uid="5b6c7c5f-482d-11e1-883a-6b3bf2f520cb" class="ConditionalNode">
+			<graphics x="663" y="1098" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Success?"/>
+			<att name="expression" type="string" value="get(response2, &quot;result&quot;)==&quot;success&quot;"/>
+		</node>
+		<node uid="5b6c7c60-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="635" y="1163" fill="#00b200"/>
+			<att name="title" type="string" value="Richtig so?"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>&quot;Liegt das &quot; +	 Gesagtes(teilbeschreibung)+&quot; dort richtig?&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c61-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.vocon.VoconNode">
+			<graphics x="636" y="1233" fill="#b20000"/>
+			<att name="title" type="string" value="JaNein"/>
+			<att name="threshold" type="integer" value="40"/>
+			<att name="language" type="string" value="Deutsch"/>
+			<att name="grammar" type="string" value="53ae6c76-3d30-11e1-9280-0deee7d2c939"/>
+		</node>
+		<node uid="5b6c7c62-482d-11e1-883a-6b3bf2f520cb" class="TestVariableNode">
+			<graphics x="636" y="1299" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Nein o. Ja"/>
+			<att name="var_uid" type="string" value="53af08ba-3d30-11e1-9280-0deee7d2c939"/>
+			<att name="var_name" type="string" value="janein"/>
+		</node>
+		<node uid="5b6c7c63-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="558" y="1382" fill="#00b200"/>
+			<att name="title" type="string" value="Falscher Platz"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Oh, tut mir leid. Wo soll ich es denn platzieren?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c65-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="720" y="1162" fill="#00b200"/>
+			<att name="title" type="string" value="None"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>&quot;Sorry, aber im &quot; + Gesagtes2(platzbeschreibung) + &quot; kann das &quot; + Gesagtes(teilbeschreibung) + &quot; nicht plaziert werden. Entweder ich habe dich falsch verstanden oder du musst dir einen anderen Ort aussuchen. Also versuche es einfach noch einmal.&quot;</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c66-482d-11e1-883a-6b3bf2f520cb" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="504" y="922" fill="#00b200"/>
+			<att name="title" type="string" value="Time"/>
+			<att name="voice" type="string" value="Daniel"/>
+			<att name="prompt" type="text">
+				<value>Time</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="5b6c7c67-482d-11e1-883a-6b3bf2f520cb" class="ScriptNode">
+			<graphics x="662" y="972" fill="#99ffff"/>
+			<att name="title" type="string" value="Script"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="script" type="text">
+				<value>Komando = {command = &quot;move&quot;,argument = get(platzbeschreibung, &quot;ort&quot;)};</value>
+			</att>
+		</node>
+		<node uid="5b6c7c68-482d-11e1-883a-6b3bf2f520cb" class="SetVariableNode">
+			<graphics x="523" y="1036" fill="#c0c0c0"/>
+			<att name="title" type="string" value="Variable setzen"/>
+			<att name="breakpoint" type="boolean" value="1"/>
+			<att name="assignments" type="list">
+				<att name="1" type="list">
+					<att name="var_uid" type="string" value="5b6c7c53-482d-11e1-883a-6b3bf2f520cb"/>
+					<att name="var_value" type="string" value="{result = &quot;success&quot;}"/>
+				</att>
+			</att>
+			<att name="simultaneous" type="boolean" value="0"/>
+		</node>
+		<node uid="a8d8ff5c-4837-11e1-9509-9d0372fb4b5a" class="com.clt.dialogos.tts.TTSNode">
+			<graphics x="676" y="1381" fill="#00b200"/>
+			<att name="title" type="string" value="Korrekt"/>
+			<att name="voice" type="string" value="Yannick"/>
+			<att name="prompt" type="text">
+				<value>Gut, welcher Baustein soll als nächstes Gelegt werden?</value>
+			</att>
+			<att name="prompt_type" type="string" value="text"/>
+			<att name="wait" type="boolean" value="1"/>
+		</node>
+		<node uid="da0523ab-4832-11e1-8260-8f0d15ed9137" class="OutputNode">
+			<graphics x="235" y="646" fill="#00cc99"/>
+			<att name="title" type="string" value="Ausgabe"/>
+			<att name="output" type="list">
+				<att name="0cb375de-3d24-11e1-a4df-91a9b7f5f24e" type="list">
+					<att name="Text" type="string" value="Komando"/>
+				</att>
+			</att>
+			<att name="reset" type="boolean" value="0"/>
+			<att name="wait" type="boolean" value="0"/>
+		</node>
+		<edge src="0013b1fe-42b5-11e1-8453-9b9974173cb6" tgt="1109997d-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="0013b1ff-42b5-11e1-8453-9b9974173cb6" tgt="0013b202-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="More(response)==&quot;color&quot;"/>
+		</edge>
+		<edge src="0013b1ff-42b5-11e1-8453-9b9974173cb6" tgt="0013b200-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="0013b200-42b5-11e1-8453-9b9974173cb6" tgt="5b6c7c55-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="More(response)==&quot;form&quot;"/>
+		</edge>
+		<edge src="0013b200-42b5-11e1-8453-9b9974173cb6" tgt="0013b201-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="0013b201-42b5-11e1-8453-9b9974173cb6" tgt="5b6c7c56-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="More(response)==&quot;row&quot;"/>
+		</edge>
+		<edge src="0013b201-42b5-11e1-8453-9b9974173cb6" tgt="5b6c7c5c-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="0013b202-42b5-11e1-8453-9b9974173cb6" tgt="0013b203-42b5-11e1-8453-9b9974173cb6">
+		</edge>
+		<edge src="0013b203-42b5-11e1-8453-9b9974173cb6" tgt="0013b204-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="teilbeschreibung2"/>
+		</edge>
+		<edge src="0013b204-42b5-11e1-8453-9b9974173cb6" tgt="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e">
+		</edge>
+		<edge src="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e" tgt="4ac22794-3d33-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="response"/>
+		</edge>
+		<edge src="1109997c-16bc-11e1-a396-51af591feb54" tgt="53af08c4-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="1109997d-16bc-11e1-a396-51af591feb54" tgt="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e">
+			<att name="condition" type="string" value="teilbeschreibung"/>
+		</edge>
+		<edge type="timeout" src="1109997d-16bc-11e1-a396-51af591feb54" tgt="0013b1fe-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="Timeout after 10000ms"/>
+			<att name="timeout" type="string" value="10000"/>
+		</edge>
+		<edge src="4ac22794-3d33-11e1-9280-0deee7d2c939" tgt="53af08bd-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="get(response, &quot;result&quot;)==&quot;success&quot;"/>
+		</edge>
+		<edge src="4ac22794-3d33-11e1-9280-0deee7d2c939" tgt="4ac22795-3d33-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="4ac22795-3d33-11e1-9280-0deee7d2c939" tgt="53af2fda-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="get(response, &quot;result&quot;)==&quot;none&quot;"/>
+		</edge>
+		<edge src="4ac22795-3d33-11e1-9280-0deee7d2c939" tgt="0013b1ff-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="53af08bd-3d30-11e1-9280-0deee7d2c939" tgt="53af08be-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af08be-3d30-11e1-9280-0deee7d2c939" tgt="53af08bf-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="janein"/>
+		</edge>
+		<edge src="53af08bf-3d30-11e1-9280-0deee7d2c939" tgt="5b6c7c58-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="&quot;nein&quot;"/>
+		</edge>
+		<edge src="53af08bf-3d30-11e1-9280-0deee7d2c939" tgt="53af08c0-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="&quot;ja&quot;"/>
+		</edge>
+		<edge src="53af08c0-3d30-11e1-9280-0deee7d2c939" tgt="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="53af08c2-3d30-11e1-9280-0deee7d2c939" tgt="1109997d-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="53af08c3-3d30-11e1-9280-0deee7d2c939" tgt="1109997d-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="53af08c4-3d30-11e1-9280-0deee7d2c939" tgt="53af08c5-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af08c5-3d30-11e1-9280-0deee7d2c939" tgt="1109997d-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="53af08c6-3d30-11e1-9280-0deee7d2c939" tgt="53af08c3-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="1"/>
+		</edge>
+		<edge src="53af08c6-3d30-11e1-9280-0deee7d2c939" tgt="53af08c7-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="2"/>
+		</edge>
+		<edge src="53af08c6-3d30-11e1-9280-0deee7d2c939" tgt="53af08c8-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="3"/>
+		</edge>
+		<edge src="53af08c6-3d30-11e1-9280-0deee7d2c939" tgt="53af2fdb-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="4"/>
+		</edge>
+		<edge src="53af08c6-3d30-11e1-9280-0deee7d2c939" tgt="53af2fdf-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="5"/>
+		</edge>
+		<edge src="53af08c7-3d30-11e1-9280-0deee7d2c939" tgt="1109997d-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="53af08c8-3d30-11e1-9280-0deee7d2c939" tgt="53af08c9-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af08c9-3d30-11e1-9280-0deee7d2c939" tgt="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e">
+			<att name="condition" type="string" value="teilbeschreibung"/>
+		</edge>
+		<edge src="53af2fda-3d30-11e1-9280-0deee7d2c939" tgt="53af08c6-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af2fdb-3d30-11e1-9280-0deee7d2c939" tgt="53af2fdc-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af2fdc-3d30-11e1-9280-0deee7d2c939" tgt="53af2fdd-3d30-11e1-9280-0deee7d2c939">
+			<att name="condition" type="string" value="teilbeschreibung"/>
+		</edge>
+		<edge src="53af2fdd-3d30-11e1-9280-0deee7d2c939" tgt="53af2fde-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af2fde-3d30-11e1-9280-0deee7d2c939" tgt="0cbb1700-3d24-11e1-a4df-91a9b7f5f24e">
+			<att name="condition" type="string" value="teilbeschreibung"/>
+		</edge>
+		<edge src="53af2fdf-3d30-11e1-9280-0deee7d2c939" tgt="53af2fe0-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="53af2fe0-3d30-11e1-9280-0deee7d2c939" tgt="53af08c5-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+		<edge src="5b6c7c55-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c59-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c56-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5a-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c58-482d-11e1-883a-6b3bf2f520cb" tgt="da0523ab-4832-11e1-8260-8f0d15ed9137">
+		</edge>
+		<edge src="5b6c7c59-482d-11e1-883a-6b3bf2f520cb" tgt="0013b204-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="teilbeschreibung2"/>
+		</edge>
+		<edge src="5b6c7c5a-482d-11e1-883a-6b3bf2f520cb" tgt="0013b204-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="teilbeschreibung2"/>
+		</edge>
+		<edge src="5b6c7c5b-482d-11e1-883a-6b3bf2f520cb" tgt="0013b204-42b5-11e1-8453-9b9974173cb6">
+			<att name="condition" type="string" value="teilbeschreibung2"/>
+		</edge>
+		<edge src="5b6c7c5c-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5b-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c67-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="platzbeschreibung"/>
+		</edge>
+		<edge type="timeout" src="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c66-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="Timeout after 10000ms"/>
+			<att name="timeout" type="string" value="10000"/>
+		</edge>
+		<edge src="5b6c7c5e-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5f-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="response2"/>
+		</edge>
+		<edge src="5b6c7c5f-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c60-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="get(response2, &quot;result&quot;)==&quot;success&quot;"/>
+		</edge>
+		<edge src="5b6c7c5f-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c65-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="else"/>
+		</edge>
+		<edge src="5b6c7c60-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c61-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c61-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c62-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="janein"/>
+		</edge>
+		<edge src="5b6c7c62-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c63-482d-11e1-883a-6b3bf2f520cb">
+			<att name="condition" type="string" value="&quot;nein&quot;"/>
+		</edge>
+		<edge src="5b6c7c62-482d-11e1-883a-6b3bf2f520cb" tgt="a8d8ff5c-4837-11e1-9509-9d0372fb4b5a">
+			<att name="condition" type="string" value="&quot;ja&quot;"/>
+		</edge>
+		<edge src="5b6c7c63-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c65-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c66-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5d-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c67-482d-11e1-883a-6b3bf2f520cb" tgt="5b6c7c5e-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="5b6c7c68-482d-11e1-883a-6b3bf2f520cb">
+		</edge>
+		<edge src="a8d8ff5c-4837-11e1-9509-9d0372fb4b5a" tgt="1109997c-16bc-11e1-a396-51af591feb54">
+		</edge>
+		<edge src="da0523ab-4832-11e1-8260-8f0d15ed9137" tgt="53af08c2-3d30-11e1-9280-0deee7d2c939">
+		</edge>
+	</graph>
+</wizard>
