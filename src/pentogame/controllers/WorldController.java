@@ -129,8 +129,8 @@ public class WorldController {
       in._wait();
     } catch (InterruptedException e) {
       e.printStackTrace();
-    }
-		
+    } 
+    PentoInpro.getInstance().setController(null);
 		return 1;
 	}
 	

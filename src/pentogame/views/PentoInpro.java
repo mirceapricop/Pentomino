@@ -51,7 +51,7 @@ public class PentoInpro extends IUModule implements WorldView {
   public void setController(InproController c) {
     controller = c;
   }
-
+  
   @Override
   protected void leftBufferUpdate(Collection<? extends IU> ius,
       List<? extends EditMessage<? extends IU>> edits) {
@@ -78,7 +78,7 @@ public class PentoInpro extends IUModule implements WorldView {
             iu.setTarget(actionTarget);
           }
         } else if (em.getType() == EditType.REVOKE) {
-          if(iu.predecessor() != null) {
+          if(iu.predecessor() != null && iu.predecessor().getTarget() != null) {
             controller.setTarget(iu.predecessor().getTarget());
           } else {
             controller.resetTarget();
@@ -86,6 +86,6 @@ public class PentoInpro extends IUModule implements WorldView {
         }
       }
     }
-  } 
+  }
 
 }

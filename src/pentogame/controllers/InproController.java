@@ -138,8 +138,8 @@ public class InproController {
   }
   
   private Point closestGridPoint() {
-    int closestX = (piece.left - MIN_LEFT)/board.grid_size * board.grid_size;
-    int closestY = (piece.top - MIN_TOP)/board.grid_size * board.grid_size;
+    int closestX = (int) (Math.round((piece.left - MIN_LEFT)/(1.0*board.grid_size)) * board.grid_size);
+    int closestY = (int) (Math.round((piece.top - MIN_TOP)/(1.0*board.grid_size)) * board.grid_size);
     return new Point(closestX+MIN_LEFT, closestY+MIN_TOP);
   }
 
