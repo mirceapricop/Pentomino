@@ -58,8 +58,8 @@ public class PentoInpro extends IUModule implements WorldView {
     if(controller != null) {
       for(EditMessage<? extends IU> em : edits) {
     	AbstractActionIU iu = (AbstractActionIU) em.getIU();
-    	System.out.println(iu.getType());
         if(em.getType() == EditType.ADD) {
+          System.out.println(iu.getType());
           if(iu.getType().isStop()) {
             controller.stopMove();
           }

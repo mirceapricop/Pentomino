@@ -42,6 +42,7 @@ public class NLU {
 			// get all the words leading up to the current words
 			groundingWords.add(word);
 			if (isActionWord(word)) {
+				System.out.println("Hier bin ich");
 				logger.debug("found action word " + word.getWord());
 				logger.debug("all words contained in this action: " + groundingWords);
 				logger.debug("action type is " + actionType(word));	
@@ -55,6 +56,7 @@ public class NLU {
 				performedActions.addLast(action);
 				strengthModifier = ActionStrength.NORMAL; // reset to NORMAL for a possibly following action
 			} else if (isModifierWord(word)) {
+				System.out.println("hier wollte ich hin");
 				strengthModifier = getModifierValue(word, strengthModifier);
 				logger.debug("set strength to " + strengthModifier + " due to " + word.getWord());
 			} else {
@@ -63,7 +65,7 @@ public class NLU {
 		}
 		// now remove consumed words from unusedWords
 		for (WordIU word : consumedWords) {
-			assert word == unusedWords.removeFirst();
+			unusedWords.remove(word);
 		}
 	}
 
@@ -75,25 +77,25 @@ public class NLU {
 	 * at least three consecutive NORMAL or STRONG actions
 	 */
 	public void understandUnusedWordsOnCommit() {
-		ActionStrength strengthModifier = ActionStrength.NONE;
-		if (unusedWords.size() > 0) {
-			for (Iterator<WordIU> it = unusedWords.iterator(); it.hasNext();) {
-				WordIU iu = it.next();
-				if (isModifierWord(iu)) {
-					strengthModifier = getModifierValue(iu, strengthModifier);
-					logger.debug("set strength to " + strengthModifier + " due to " + iu.getWord());
-				}
-			}
-			// Mhh... it seems to do nothing because it's all right without it
-		if (strengthModifier.isNormalDistance()) {
-				ActionIU sll = performedActions.peekLast();
-
-				ActionIU action = new ActionIU(sll, new ArrayList<WordIU>(unusedWords), ActionType.CONTINUE, strengthModifier);
-				performedActions.addLast(action);
-			unusedWords.clear();
-		}
-		}
-		//addRepetitiveMaxAction(); TODO: Auskommentiert zu Debugzwecken
+//		ActionStrength strengthModifier = ActionStrength.NONE;
+//		if (unusedWords.size() > 0) {
+//			for (Iterator<WordIU> it = unusedWords.iterator(); it.hasNext();) {
+//				WordIU iu = it.next();
+//				if (isModifierWord(iu)) {
+//					strengthModifier = getModifierValue(iu, strengthModifier);
+//					logger.debug("set strength to " + strengthModifier + " due to " + iu.getWord());
+//				}
+//			}
+//			// Mhh... it seems to do nothing because it's all right without it
+//		if (strengthModifier.isNormalDistance()) {
+//				ActionIU sll = performedActions.peekLast();
+//
+//				ActionIU action = new ActionIU(sll, new ArrayList<WordIU>(unusedWords), ActionType.CONTINUE, strengthModifier);
+//				performedActions.addLast(action);
+//			unusedWords.clear();
+//		}
+//		}
+		//addRepetitiveMaxAction(); TODO: Auskommentiert zu Debugzwecken 
 	}
 	
 	private boolean hasAttribute(WordIU iu, String attribute) {
