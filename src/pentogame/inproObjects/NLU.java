@@ -175,6 +175,7 @@ public class NLU {
 		if (sem.getValue().equals("drop")) return ActionType.DROP;
 		if (sem.getValue().equals("reverse")) return ActionType.REVERSE;
 		if (sem.getValue().equals("continue")) return ActionType.CONTINUE;
+		if (sem.getValue().equals("cancel")) return ActionType.CANCEL;
 		throw new RuntimeException("panic: " + sem.getValue());
 	}
 }
