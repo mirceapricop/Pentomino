@@ -2,23 +2,19 @@
 links	act:left
 rechts	act:right
 weiter,warm,nochmal	act:continue
-zurÃ¼ck	act:reverse
-oben,hoch	act:up
-unten,runter	act:down
-abbrechen,zurÃ¼cklegen,vonvorne,neuesteil	act:cancel
-#TODO: nochmal drÃ¼ber nachdenken
+zurück	act:reverse
 
 # modifiers for strength
-bisschen,biss'l,etwas,wenig,stÃ¼ck,stÃ¼ckchen	modifier:weak
-groÃŸ,grÃ¶ÃŸer,grÃ¶ÃŸeres,groÃŸes,sehr,stark,weit,viel	modifier:strong
+bisschen,biss'l,etwas,wenig,stück,stückchen	modifier:weak
+groß,größer,größeres,großes,sehr,stark,weit,viel	modifier:strong
 mehr	modifier:regular
 ganz,rand	modifier:max
 
 # stop
-stopp,stop,halt,reicht,aufhÃ¶ren,jetzt	act:stop
+stopp,stop,halt,reicht,aufhören,jetzt	act:stop
 
 # dropping
-abwÃ¤rts,loslassen,einwerfen,fallen	act:drop
+abwärts,runter,loslassen,einwerfen,fallen,unten	act:drop
 
 # positional (absolute) commands
 #mitte	pos:center

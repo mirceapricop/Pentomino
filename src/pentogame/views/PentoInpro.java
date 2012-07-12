@@ -13,6 +13,7 @@ import java.util.List;
 import pentogame.Startup;
 import pentogame.controllers.InproController;
 import pentogame.controllers.WorldController;
+import pentogame.inproObjects.AbstractActionIU;
 import pentogame.inproObjects.MockActionIU;
 import pentogame.inproObjects.Point;
 
@@ -56,7 +57,8 @@ public class PentoInpro extends IUModule implements WorldView {
       List<? extends EditMessage<? extends IU>> edits) {
     if(controller != null) {
       for(EditMessage<? extends IU> em : edits) {
-        MockActionIU iu = (MockActionIU) em.getIU();
+    	AbstractActionIU iu = (AbstractActionIU) em.getIU();
+    	System.out.println(iu.getType());
         if(em.getType() == EditType.ADD) {
           if(iu.getType().isStop()) {
             controller.stopMove();
@@ -72,6 +74,7 @@ public class PentoInpro extends IUModule implements WorldView {
           
           if(iu.getType().isMotion()) {
             Point actionTarget = controller.moveTarget(iu.getVector().getX(), iu.getVector().getY());
+            //System.out.println("Ypsilon: " + iu.getVector().getY() + " Iks:" + iu.getVector().getX());
             iu.setTarget(actionTarget);
           }
         } else if (em.getType() == EditType.REVOKE) {

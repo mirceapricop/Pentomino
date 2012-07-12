@@ -13,13 +13,20 @@ import inpro.incremental.IUModule;
 import inpro.incremental.unit.EditMessage;
 import inpro.incremental.unit.IU;
 import inpro.incremental.unit.WordIU;
+import inpro.nlu.AVPairMappingUtil;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
+
+import demo.inpro.system.greifarm.GreifarmActor;
+import edu.cmu.sphinx.util.props.PropertyException;
+import edu.cmu.sphinx.util.props.PropertySheet;
 
 
 /**
@@ -126,5 +133,15 @@ public class NLUModule extends IUModule {
 		generatedActions.clear();
 		//generatedActions.add(new ActionIU.StartActionIU(greifarmController));
 	}
+	@Override
+	public void newProperties(PropertySheet ps) throws PropertyException {
+		super.newProperties(ps);
+		try{
+			WordIU.setAVPairs(AVPairMappingUtil.readAVPairs(GreifarmActor.class.getResourceAsStream("GreifarmAVMapping")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
 

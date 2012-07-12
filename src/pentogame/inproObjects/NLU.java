@@ -44,7 +44,7 @@ public class NLU {
 			if (isActionWord(word)) {
 				logger.debug("found action word " + word.getWord());
 				logger.debug("all words contained in this action: " + groundingWords);
-				logger.debug("action type is " + actionType(word));
+				logger.debug("action type is " + actionType(word));	
 				// get SLL (which is also relevant to determine the ActionIU's behaviour
 				ActionIU sll = performedActions.peekLast(); // may be null
 				// create new Action IU depending on actionType(iu), previous actions
@@ -92,7 +92,7 @@ public class NLU {
 				unusedWords.clear();
 			}
 		}
-		addRepetitiveMaxAction();
+		//addRepetitiveMaxAction(); TODO: Auskommentiert zu Debugzwecken
 	}
 	
 	private boolean hasAttribute(WordIU iu, String attribute) {
@@ -169,7 +169,7 @@ public class NLU {
 		AVPair sem = iu.getAVPairs().get(0);
 		if (sem.getValue().equals("left")) return ActionType.LEFT;
 		if (sem.getValue().equals("right")) return ActionType.RIGHT;
-		if (sem.getValue().equals("down")) return ActionType.DOWN; //TODO: what is sem.getValue()?? AVPair (Attribute(an Object) Value(A String, describing it?)) Where do these Attributes come from?
+		if (sem.getValue().equals("down")) return ActionType.DOWN;
 		if (sem.getValue().equals("up")) return ActionType.UP;
 		if (sem.getValue().equals("stop")) return ActionType.STOP;
 		if (sem.getValue().equals("drop")) return ActionType.DROP;

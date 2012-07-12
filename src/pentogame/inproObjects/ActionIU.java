@@ -96,11 +96,14 @@ public class ActionIU extends AbstractActionIU{
 	  
 	  //The following piece of higher art is about ActionTypes 
 	  if(type.isExplicitDirection()){
+		  System.out.println("hier nur einmal, wetten");
+		  
 		  switch(type){
-	  		case LEFT: x = -1;
-	  		case RIGHT: x = 1;
-	  		case UP: y = -1;
-	  		case DOWN: y = 1;
+	  		case LEFT: x = -1;break;
+	  		case RIGHT: x = 1;break;
+	  		case UP: y = -1;break;
+	  		case DOWN: y = 1;break;
+	  		default: x=21061991;
 		  }
 		  returnpoint =  new Point(x,y);
 		  
@@ -124,6 +127,7 @@ public class ActionIU extends AbstractActionIU{
 	  		}
 	  		else if(type == ActionType.REVERSE) //User said "zurück"
 	  		{
+	  			System.out.println("REVERSE");
 	  			if(this.isDiagonalMovement()){ 
 	  				if(predecessor().precedesPause){
 	  					if(firstNOTdiagonal().type.isHorizontal()){
@@ -143,11 +147,13 @@ public class ActionIU extends AbstractActionIU{
 	  				}
 	  			}
 	  			else{
+	  				System.out.println("NO diagonal");
 	  				if(predecessor().precedesPause){ 
+	  					System.out.println("preceedsPause");
 	  					returnpoint =  predecessor().getVector().negate();
 	  				}
 	  				else{ //This is just in case some says "links zurück" - we consider nobody is reverting his expression the same second he makes it 
-	  					returnpoint =  predecessor().getVector();
+	  					returnpoint =  predecessor().getVector().negate();
 	  				}
 	  			}
 	  			
@@ -176,7 +182,7 @@ public class ActionIU extends AbstractActionIU{
 				  returnpoint.scale(strength.getDistance());
 			  }
 		  }
-	  
+	  System.out.println(returnpoint.getX() + "  " + returnpoint.getY());
 	  	return returnpoint;
 	}
   
