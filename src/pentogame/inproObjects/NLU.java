@@ -84,13 +84,14 @@ public class NLU {
 					logger.debug("set strength to " + strengthModifier + " due to " + iu.getWord());
 				}
 			}
-			if (strengthModifier.isNormalDistance()) {
+			// Mhh... it seems to do nothing because it's all right without it
+		if (strengthModifier.isNormalDistance()) {
 				ActionIU sll = performedActions.peekLast();
 
 				ActionIU action = new ActionIU(sll, new ArrayList<WordIU>(unusedWords), ActionType.CONTINUE, strengthModifier);
 				performedActions.addLast(action);
-				unusedWords.clear();
-			}
+			unusedWords.clear();
+		}
 		}
 		//addRepetitiveMaxAction(); TODO: Auskommentiert zu Debugzwecken
 	}
@@ -116,32 +117,32 @@ public class NLU {
 	 * a MAX-action in that direction, in order to speed things up
 	 * (and to force them to use the STOP command more often... )  
 	 */
-	private void addRepetitiveMaxAction() {
-		final int CONSECUTIVE_ACTIONS = 3;
-		ActionIU ultimateAction = performedActions.getLast();
-		if (ultimateAction.isWeak()) {
-			logger.debug("previous action was weak, not adding max action");
-			return;
-		}
-		ActionType ultimateDirection = ultimateAction.realizedDirection();
-		ActionIU actionIterator = ultimateAction;
-		int counter = 0;
-		while (actionIterator != null && // check that there was an action
-			actionIterator.getType().isMotion() &&
-			!actionIterator.isWeak() &&
-			actionIterator.realizedDirection().isExplicitDirection() && // check that it was a directional action
-			(actionIterator.realizedDirection() == ultimateDirection) && // check that the direction is right
-			counter < CONSECUTIVE_ACTIONS) // no need to check beyond 3 
-		{
-			actionIterator = (ActionIU) actionIterator.getSameLevelLink();
-			counter++;
-		}
-		if (counter >= 3) {
-			logger.debug("adding max action");
-			ActionIU action = new ActionIU(ultimateAction, null, ActionType.CONTINUE, ActionStrength.MAX);
-			performedActions.addLast(action);	
-		}
-	}
+//	private void addRepetitiveMaxAction() {
+//		final int CONSECUTIVE_ACTIONS = 3;
+//		ActionIU ultimateAction = performedActions.getLast();
+//		if (ultimateAction.isWeak()) {
+//			logger.debug("previous action was weak, not adding max action");
+//			return;
+//		}
+//		ActionType ultimateDirection = ultimateAction.realizedDirection();
+//		ActionIU actionIterator = ultimateAction;
+//		int counter = 0;
+//		while (actionIterator != null && // check that there was an action
+//			actionIterator.getType().isMotion() &&
+//			!actionIterator.isWeak() &&
+//			actionIterator.realizedDirection().isExplicitDirection() && // check that it was a directional action
+//			(actionIterator.realizedDirection() == ultimateDirection) && // check that the direction is right
+//			counter < CONSECUTIVE_ACTIONS) // no need to check beyond 3 
+//		{
+//			actionIterator = (ActionIU) actionIterator.getSameLevelLink();
+//			counter++;
+//		}
+//		if (counter >= 3) {
+//			logger.debug("adding max action");
+//			ActionIU action = new ActionIU(ultimateAction, null, ActionType.CONTINUE, ActionStrength.MAX);
+//			performedActions.addLast(action);	
+//		}
+//	}
 	
 	/** 
 	 * we only interpret the very last modifier word; that is, things like

@@ -96,7 +96,6 @@ public class ActionIU extends AbstractActionIU{
 	  
 	  //The following piece of higher art is about ActionTypes 
 	  if(type.isExplicitDirection()){
-		  System.out.println("hier nur einmal, wetten");
 		  
 		  switch(type){
 	  		case LEFT: x = -1;break;
@@ -127,7 +126,7 @@ public class ActionIU extends AbstractActionIU{
 	  		}
 	  		else if(type == ActionType.REVERSE) //User said "zurück"
 	  		{
-	  			System.out.println("REVERSE");
+	  			//System.out.println("REVERSE");
 	  			if(this.isDiagonalMovement()){ 
 	  				if(predecessor().precedesPause){
 	  					if(firstNOTdiagonal().type.isHorizontal()){
@@ -147,9 +146,9 @@ public class ActionIU extends AbstractActionIU{
 	  				}
 	  			}
 	  			else{
-	  				System.out.println("NO diagonal");
+	  				//System.out.println("NO diagonal");
 	  				if(predecessor().precedesPause){ 
-	  					System.out.println("preceedsPause");
+	  					//System.out.println("preceedsPause");
 	  					returnpoint =  predecessor().getVector().negate();
 	  				}
 	  				else{ //This is just in case some says "links zurück" - we consider nobody is reverting his expression the same second he makes it 
@@ -166,23 +165,24 @@ public class ActionIU extends AbstractActionIU{
 	  
 	  
 	  //The following piece of higher art is about ActionStrength
+	 // System.out.println(strength);
 	  if(type.isExplicitDirection()){
-		  returnpoint.scale(strength.getDistance());	
+		  returnpoint = returnpoint.scale(strength.getDistance());	
 	  }
 		  else
 		  {
 			  if(type == predecessor().getType() && strength != ActionStrength.WEAK )
 			  {
 				  strength = ActionStrength.STRONG;
-				  returnpoint.scale(strength.getDistance());
+				  returnpoint = returnpoint.scale(strength.getDistance());
 			  }
 			  else if (type == predecessor().getType() && strength == ActionStrength.WEAK )
 			  {
 				  strength = ActionStrength.WEAK;
-				  returnpoint.scale(strength.getDistance());
+				  returnpoint = returnpoint.scale(strength.getDistance());
 			  }
 		  }
-	  System.out.println(returnpoint.getX() + "  " + returnpoint.getY());
+	  
 	  	return returnpoint;
 	}
   

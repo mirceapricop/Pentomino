@@ -74,7 +74,7 @@ public class PentoInpro extends IUModule implements WorldView {
           
           if(iu.getType().isMotion()) {
             Point actionTarget = controller.moveTarget(iu.getVector().getX(), iu.getVector().getY());
-            //System.out.println("Ypsilon: " + iu.getVector().getY() + " Iks:" + iu.getVector().getX());
+            System.out.println(iu.getVector().getX() + "  " + iu.getVector().getY());
             iu.setTarget(actionTarget);
           }
         } else if (em.getType() == EditType.REVOKE) {
