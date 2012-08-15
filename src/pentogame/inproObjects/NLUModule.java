@@ -141,7 +141,7 @@ public class NLUModule extends IUModule {
 	public void newProperties(PropertySheet ps) throws PropertyException {
 		super.newProperties(ps);
 		try{
-			WordIU.setAVPairs(AVPairMappingUtil.readAVPairs(GreifarmActor.class.getResourceAsStream("GreifarmAVMapping")));
+			WordIU.setAVPairs(AVPairMappingUtil.readAVPairs(NLUModule.class.getResourceAsStream("AVMapping")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

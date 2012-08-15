@@ -86,6 +86,14 @@ public class InproController {
           
           piece.left = (int) realLeft;
           piece.top = (int) realTop;
+          
+          if(piece.left >= MIN_LEFT && piece.left <= MAX_LEFT 
+        	 && piece.top >= MIN_TOP && piece.top <= MAX_TOP) { // Piece is in the elephant
+        	  speed = 50;
+          } else {
+        	  speed = 150;
+          }
+          
           hand.left = piece.left+piece.getTemplateCols()*board.grid_size/2-25;
           hand.top = piece.top+piece.getTemplateRows()*board.grid_size/2-25;
           if(stopMovement) {
