@@ -29,6 +29,11 @@ public class InproController {
   
   private Thread mover;
   private int speed = 50; // px / sec
+  
+  private int MIN_SPEED = 10;
+  private int MAX_SPEED = 150;
+  private int SPEED_CUTOFF = 200;
+  
   private long lastMove;
   
   private final int MIN_LEFT = 136;
@@ -87,12 +92,9 @@ public class InproController {
           piece.left = (int) realLeft;
           piece.top = (int) realTop;
           
-          if(piece.left >= MIN_LEFT && piece.left <= MAX_LEFT 
-        	 && piece.top >= MIN_TOP && piece.top <= MAX_TOP) { // Piece is in the elephant
-        	  speed = 50;
-          } else {
-        	  speed = 150;
-          }
+          double targetDistance = Math.sqrt(Math.pow(targetLeft - realLeft, 2) + Math.pow(targetTop-realTop, 2));
+          if(targetDistance > SPEED_CUTOFF) targetDistance = SPEED_CUTOFF;
+          speed = (int) (targetDistance * (MAX_SPEED-MIN_SPEED)/SPEED_CUTOFF + MIN_SPEED);
           
           hand.left = piece.left+piece.getTemplateCols()*board.grid_size/2-25;
           hand.top = piece.top+piece.getTemplateRows()*board.grid_size/2-25;

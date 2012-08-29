@@ -197,7 +197,7 @@
 
     <component name="ngramGrammar" type="edu.cmu.sphinx.linguist.language.grammar.LMGrammar">
         <property name="dictionary" value="dictionary"/>
-        <property name="languageModel" value="ngram"/>
+        <property name="languageModel" value="interpolatedLM"/>
     </component>
     
     <component name="interpolatedLM" type="edu.cmu.sphinx.linguist.language.ngram.InterpolatedLanguageModel">
@@ -207,8 +207,8 @@
     		<item>ngram2</item>
     	</propertylist>
     	<propertylist name="languageModelWeights">
-    		<item>1.0</item>
-    		<item>0.0</item>
+    		<item>0.7</item>
+    		<item>0.3</item>
     	</propertylist>
     </component>
     
@@ -237,7 +237,7 @@
     <component name="dictionary" type="edu.cmu.sphinx.linguist.dictionary.FullDictionary">
 -->
     <component name="dictionary" type="inpro.sphinx.linguist.dictionary.SyllableAwareFullDictionary"> 
-        <property name="dictionaryPath" value="resource:/Cocolab_DE_8gau_13dCep_16k_40mel_130Hz_6800Hz/dict/Cocolab_DE.lex"/>
+        <property name="dictionaryPath" value="file:pento.dic"/>
         <property name="fillerPath" value="resource:/Cocolab_DE_8gau_13dCep_16k_40mel_130Hz_6800Hz/dict/Cocolab_DE.filler"/>
         <property name="addSilEndingPronunciation" value="false"/>
         <property name="unitManager" value="unitManager"/>

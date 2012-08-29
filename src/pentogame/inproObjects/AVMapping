@@ -15,10 +15,10 @@ mehr	modifier:regular
 ganz,rand	modifier:max
 
 # stop
-stopp,stop,halt,reicht,aufhören,jetzt	act:stop
+stopp,stop,halt,reicht,aufhören	act:stop
 
 # dropping
-abwärts,loslassen,einwerfen,fallen	act:drop
+abwärts,loslassen,einwerfen,fallen,genau,ablegen	act:drop
 
 # positional (absolute) commands
 #mitte	pos:center

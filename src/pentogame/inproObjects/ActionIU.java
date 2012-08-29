@@ -121,7 +121,11 @@ public class ActionIU extends AbstractActionIU{
 	  				}
 	  			}
 	  			else{
-	  				returnpoint =  predecessor().getVector();
+	  				if(predecessor() != null) {
+	  					returnpoint =  predecessor().getVector();
+	  				} else {
+	  					return new Point(0, 0);
+	  				}
 	  			}	
 	  		}
 	  		else if(type == ActionType.REVERSE) //User said "zurück"
@@ -160,7 +164,11 @@ public class ActionIU extends AbstractActionIU{
 	  	}
 	  	else//Type is : Stop, Drop, Cancle
 	  	{
-	  		returnpoint = predecessor().getVector(); //That is in need for "oben links" + "weiter" + "stop" + "zurück" - we want to revert "weiter" and not "stop"
+	  		if(predecessor() != null) {
+	  			returnpoint = predecessor().getVector(); //That is in need for "oben links" + "weiter" + "stop" + "zurück" - we want to revert "weiter" and not "stop"
+			} else {
+				return new Point(0, 0);
+			}
 	  	}
 	  
 	  

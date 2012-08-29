@@ -1,0 +1,1122 @@
+#############################################################################
+## Copyright (c) 1996, Carnegie Mellon University, Cambridge University,
+## Ronald Rosenfeld and Philip Clarkson
+## Version 3, Copyright (c) 2006, Carnegie Mellon University 
+## Contributors includes Wen Xu, Ananlada Chotimongkol, 
+## David Huggins-Daines, Arthur Chan and Alan Black 
+#############################################################################
+=============================================================================
+===============  This file was produced by the CMU-Cambridge  ===============
+===============     Statistical Language Modeling Toolkit     ===============
+=============================================================================
+This is a 3-gram language model, based on a vocabulary of 148 words,
+  which begins "</s>", "<s>", "Bildschirmrand"...
+This is an OPEN-vocabulary model (type 1)
+  (OOVs were mapped to UNK, which is treated as any other vocabulary word)
+Good-Turing discounting was applied.
+1-gram frequency of frequency : 67 
+2-gram frequency of frequency : 244 57 29 7 5 8 4 
+3-gram frequency of frequency : 411 72 25 11 8 7 1 
+1-gram discounting ratios : 0.96 
+2-gram discounting ratios : 0.41 0.74 0.24 0.88 
+3-gram discounting ratios : 0.28 0.47 0.54 0.90 
+This file is in the ARPA-standard format introduced by Doug Paul.
+
+p(wd3|wd1,wd2)= if(trigram exists)           p_3(wd1,wd2,wd3)
+                else if(bigram w1,w2 exists) bo_wt_2(w1,w2)*p(wd3|wd2)
+                else                         p(wd3|w2)
+
+p(wd2|wd1)= if(bigram exists) p_2(wd1,wd2)
+            else              bo_wt_1(wd1)*p_1(wd2)
+
+All probs and back-off weights (bo_wt) are given in log10 form.
+
+Data formats:
+
+Beginning of data mark: \data\
+ngram 1=nr            # number of 1-grams
+ngram 2=nr            # number of 2-grams
+ngram 3=nr            # number of 3-grams
+
+\1-grams:
+p_1     wd_1 bo_wt_1
+\2-grams:
+p_2     wd_1 wd_2 bo_wt_2
+\3-grams:
+p_3     wd_1 wd_2 wd_3 
+
+end of data mark: \end\
+
+\data\
+ngram 1=149
+ngram 2=368
+ngram 3=544
+
+\1-grams:
+-2.9033 <UNK>	0.0000
+-0.7412 </s>	-2.1461
+-98.9995 <s>	-0.3447
+-2.4071 Bildschirmrand	-0.3348
+-2.4071 Feld	-0.0832
+-2.0392 Felder	-0.9371
+-2.9033 Schritt	-0.1880
+-1.6801 Stück	-0.6042
+-2.9033 Stückchen	-0.2202
+-2.4071 abbrechen	-0.0348
+-2.9033 abgeschnitten	-0.2242
+-2.9033 ablegen	-0.1395
+-2.9033 acht	-0.1395
+-2.9033 ah	-0.2248
+-2.9033 als	-0.2260
+-2.9033 an	-0.2237
+-2.4071 andere	-0.1189
+-2.9033 anderen	-0.2237
+-2.5832 anderes	-0.5694
+-2.5832 auch	-0.1319
+-2.2822 auf	-0.5735
+-2.9033 aufhören	0.0000
+-1.9300 bewege	-1.2133
+-2.9033 bewegen	-0.1395
+-2.1061 bisschen	-0.3594
+-2.9033 bist	-0.2254
+-2.5832 bitte	-0.4916
+-2.9033 bleiben	-0.1395
+-2.5832 circa	-0.2103
+-2.0392 da	-0.0796
+-2.5832 dahin	-0.4916
+-1.6801 dann	-0.0398
+-1.6055 das	-0.7644
+-2.9033 dass	-0.2242
+-2.2822 der	-0.2232
+-2.5832 diagonal	-0.5401
+-2.1853 die	-0.3323
+-2.4071 doch	-0.2139
+-2.4071 drei	-0.1177
+-2.5832 du	-0.2231
+-2.9033 eigentlich	-0.2254
+-1.4693 ein	-0.3318
+-2.9033 eine	-0.2260
+-2.9033 einfach	-0.2115
+-2.9033 eins	-0.1880
+-2.4071 erst	-0.3725
+-2.9033 erstes	-0.2115
+-2.4071 erstmal	-0.3725
+-1.7703 es	-0.2349
+-2.5832 fast	-0.1347
+-2.9033 fertig	-0.1395
+-2.9033 fünf	-0.2225
+-1.7703 ganz	-0.1596
+-2.4071 geh	-0.1194
+-2.9033 gehen	-0.2248
+-2.9033 geht	-0.2202
+-2.9033 gemacht	-0.1395
+-1.9300 genau	-0.1998
+-2.2822 großes	-0.9139
+-2.1853 gut	-0.0724
+-2.9033 halt	-0.1395
+-2.9033 hier	-0.2254
+-2.5832 hin	-0.4916
+-2.4071 hm	-0.0913
+-2.5832 hoch	-0.1276
+-2.9033 hundertprozentig	-0.2237
+-2.9033 hälfte	-0.2260
+-2.2822 ich	-0.2226
+-2.5832 immer	-0.5723
+-2.5832 in	-0.5758
+-2.2822 ist	-0.0496
+-1.7082 ja	-0.2077
+-2.1061 jetzt	-0.2468
+-2.9033 jup	-0.1395
+-2.9033 kann	-0.2191
+-2.9033 kasten	-0.2254
+-1.9812 kleines	-1.1199
+-2.5832 kommt	-0.5401
+-2.9033 kästchen	-0.1880
+-2.5832 leg	-0.5712
+-2.9033 lieber	-0.2248
+-2.2822 liegt	-0.2109
+-2.9033 linke	-0.2173
+-2.9033 linken	-0.2248
+-1.3280 links	-1.2874
+-2.4071 loslassen	-0.0348
+-2.2822 mal	-0.1748
+-2.9033 mehr	-0.2260
+-2.4071 muss	-0.2179
+-2.9033 musste	-0.2191
+-2.9033 n	-0.2231
+-1.0713 nach	-1.6717
+-2.9033 nehme	-0.2242
+-2.9033 nehmen	-0.1395
+-2.5832 nein	-0.2219
+-2.9033 nen	-0.2260
+-2.9033 nicht	-0.2260
+-1.8429 noch	-0.6108
+-1.7703 oben	-0.7841
+-2.9033 oh	-0.2231
+-2.1061 okay	-0.3192
+-2.9033 paar	-0.2225
+-2.9033 packe	-0.2156
+-2.5832 passt	-0.2208
+-2.5832 perfekt	-0.4916
+-2.9033 position	-0.1395
+-2.9033 rand	-0.1395
+-2.9033 rechte	-0.2237
+-2.4071 rechten	-0.4251
+-1.3657 rechts	-0.7895
+-2.9033 reihe	-0.2248
+-2.1853 richtig	-0.7581
+-2.9033 richtigen	-0.2260
+-2.9033 richtung	-0.1395
+-2.4071 runter	-0.0348
+-2.9033 rüber	-0.2242
+-2.9033 sagen	-0.1395
+-2.9033 schluss	-0.1395
+-2.5832 schon	-0.2196
+-2.2822 schräg	-0.3249
+-2.9033 seh	-0.2242
+-2.2822 sehr	-0.5706
+-2.1853 seite	-0.7581
+-1.9812 so	-0.0546
+-2.9033 soll	-0.2191
+-2.5832 stark	-0.5401
+-2.5832 stopp	-0.4916
+-1.6801 teil	-0.0401
+-2.9033 total	-0.1880
+-2.9033 um	-0.2248
+-1.6538 und	-0.5339
+-1.8843 unten	-0.6796
+-2.9033 viel	-0.1880
+-2.9033 war	-0.2248
+-2.9033 warte	-0.2242
+-1.9300 weit	-0.8210
+-1.7381 weiter	-0.4354
+-2.9033 wieder	-0.2237
+-2.9033 will	-0.2242
+-2.9033 wir	-0.2260
+-2.9033 würde	-0.2242
+-2.5832 zehn	-0.5746
+-2.9033 ziemlich	-0.2214
+-2.5832 zu	-0.2243
+-2.2822 zum	-0.1434
+-2.1853 zurück	-0.7581
+-2.9033 zurücklegen	-0.1395
+-2.5832 äh	-0.2219
+-2.9033 äußerste	-0.2260
+
+\2-grams:
+-0.0031 </s> <s> 0.0661
+-2.5372 <s> abbrechen -0.0211
+-2.5372 <s> ablegen 0.0836
+-2.5372 <s> ah 0.0836
+-2.5372 <s> als 0.0836
+-2.5372 <s> an 0.0836
+-2.5372 <s> aufhören -0.0559
+-1.1919 <s> bewege 0.3035
+-2.5372 <s> bisschen -0.0206
+-2.2809 <s> dann -0.1084
+-1.2430 <s> das 0.0114
+-2.5372 <s> der -0.0963
+-2.5372 <s> diagonal 0.4357
+-2.5372 <s> du -0.0442
+-1.1047 <s> ein -0.2118
+-2.5372 <s> eine 0.0836
+-2.5372 <s> fast -0.0442
+-2.5372 <s> fertig 0.0836
+-1.1919 <s> ganz -0.1691
+-2.2809 <s> geh -0.2175
+-1.4472 <s> genau 0.0716
+-2.5372 <s> halt 0.0836
+-2.5372 <s> hier 0.0836
+-1.9781 <s> hm -0.0056
+-1.9781 <s> immer 0.3035
+-2.5372 <s> in 0.4357
+-0.9700 <s> ja 0.0200
+-1.4472 <s> jetzt 0.0675
+-2.5372 <s> jup 0.0836
+-2.5372 <s> loslassen -0.0211
+-1.5993 <s> nach 0.0465
+-1.9781 <s> nein 0.0836
+-2.5372 <s> noch -0.0805
+-2.5372 <s> oben -0.0907
+-2.5372 <s> oh 0.0836
+-1.3680 <s> okay 0.2010
+-2.5372 <s> packe 0.0836
+-2.5372 <s> perfekt 0.4357
+-2.5372 <s> rechts -0.1376
+-2.5372 <s> schluss 0.0836
+-1.9781 <s> schräg 0.1326
+-2.2809 <s> sehr 0.3522
+-2.2809 <s> so -0.1596
+-1.9781 <s> stark 0.3035
+-2.5372 <s> stopp 0.4357
+-2.5372 <s> total 0.0836
+-1.9781 <s> und 0.2071
+-1.9781 <s> weit 0.2021
+-1.3680 <s> weiter 0.0467
+-2.5372 <s> wieder 0.0836
+-2.5372 <s> wir 0.0836
+-2.5372 <s> ziemlich 0.0836
+-2.5372 <s> zu -0.0442
+-1.9781 <s> zurück 0.5701
+-2.5372 <s> zurücklegen 0.0836
+-1.9781 <s> äh 0.0836
+-0.3091 Bildschirmrand </s> 1.8711
+-0.8682 Bildschirmrand so -0.1202
+-0.6119 Feld nach 0.0302
+-1.2362 Felder </s> 2.0033
+-0.0669 Felder nach 0.3459
+-0.3911 Schritt nach 0.0366
+-1.0361 Stück hoch 0.0836
+-0.2041 Stück nach 0.9100
+-1.5952 Stück rechts -0.1236
+-1.3389 Stück weiter 0.2897
+-0.3911 Stückchen noch -0.1265
+-0.6119 abbrechen </s> 1.8069
+-0.3911 abgeschnitten ist -0.0963
+-0.3911 ablegen </s> 2.0033
+-0.3911 acht </s> 2.0033
+-0.3911 ah hm -0.0796
+-0.3911 als erstes 0.0836
+-0.3911 an die -0.1060
+-0.6119 andere seite 0.5059
+-0.3911 anderen seite 0.7022
+-0.1331 anderes teil -0.1202
+-0.6921 auch </s> 2.0033
+-0.6921 auch noch 0.1996
+-0.4341 auf der -0.0442
+-0.4341 auf die 0.0618
+-0.1091 bewege das -0.4569
+-0.7863 bewege es -0.1148
+-0.3911 bewegen </s> 2.0033
+-1.1692 bisschen das -0.1335
+-0.6102 bisschen nach 0.1137
+-1.1692 bisschen oben -0.0907
+-0.6102 bisschen weiter 0.1721
+-0.3911 bist du -0.0442
+-0.1331 bitte </s> 1.8711
+-0.3911 bleiben </s> 2.0033
+-0.6921 circa ein -0.1304
+-0.6921 circa zehn 0.4357
+-0.9798 da </s> 1.8069
+-1.2362 da hundertprozentig 0.0836
+-1.2362 da liegt -0.0963
+-1.2362 da noch 0.1996
+-1.2362 da soll 0.0836
+-0.1331 dahin </s> 1.8711
+-1.5952 dann </s> 2.0033
+-1.5952 dann Stück -0.1009
+-1.5952 dann dann -0.1317
+-1.5952 dann geht 0.0836
+-1.5952 dann leg 0.4357
+-1.5952 dann links 0.4253
+-1.0361 dann nach 0.1787
+-1.5952 dann nehme 0.0836
+-1.0361 dann noch 0.0674
+-1.5952 dann rechts -0.1376
+-1.5952 dann runter -0.0211
+-1.5952 dann schräg -0.0963
+-1.5952 dann weit -0.1228
+-1.5952 dann will 0.0836
+-1.6698 das linke 0.0836
+-1.6698 das nach 0.0903
+-1.1108 das passt 0.0836
+-1.6698 das seh 0.0836
+-0.1648 das teil -0.0431
+-1.6698 das war 0.0836
+-0.3911 dass der -0.0963
+-0.9931 der andere -0.0211
+-0.9931 der bist 0.0836
+-0.9931 der richtigen 0.0836
+-0.9931 der äußerste 0.0836
+-0.1331 diagonal nach 0.1787
+-0.5310 die andere -0.1533
+-1.0900 die anderen 0.0836
+-1.0900 die rechte 0.0836
+-1.0900 die richtung 0.0836
+-0.8682 doch das 0.3577
+-0.8682 doch einfach 0.0836
+-0.8682 doch schon -0.0442
+-0.6119 drei Felder 0.8452
+-0.6921 du musste 0.0836
+-0.6921 du richtig 0.7022
+-0.3911 eigentlich schon -0.0442
+-1.5497 ein Feld -0.2175
+-1.8060 ein Schritt 0.0836
+-1.5497 ein Stück 0.2562
+-1.2470 ein anderes 0.3035
+-1.5497 ein bisschen 0.0653
+-1.5497 ein ganz -0.1586
+-0.8681 ein großes -0.0738
+-0.6368 ein kleines 0.2086
+-1.8060 ein kästchen 0.0836
+-0.3911 eine reihe 0.0836
+-0.3911 einfach ein -0.1304
+-0.3911 eins nach 0.0366
+-0.3091 erst ein -0.1103
+-0.8682 erst nach -0.0934
+-0.3911 erstes ein -0.0289
+-0.3091 erstmal ein -0.1044
+-0.8682 erstmal nach 0.0903
+-1.5050 es bleiben 0.0836
+-1.5050 es dahin 0.4357
+-1.5050 es doch -0.0796
+-1.5050 es eigentlich 0.0836
+-1.5050 es ein -0.1360
+-1.5050 es eins 0.0836
+-1.5050 es gut -0.0740
+-1.5050 es hin 0.4357
+-0.9460 es muss -0.0056
+-1.5050 es nicht 0.0836
+-1.5050 es perfekt 0.4357
+-1.5050 es richtig 0.7022
+-0.6921 fast </s> 2.0033
+-0.6921 fast da -0.1169
+-0.3911 fertig </s> 2.0033
+-0.3911 fünf Felder 0.7022
+-1.5050 ganz Stück -0.1317
+-1.2487 ganz auf 0.3522
+-0.9460 ganz kleines 0.6280
+-1.5050 ganz links 0.4253
+-0.9460 ganz nach 0.4659
+-1.5050 ganz rüber 0.0836
+-1.2487 ganz weit 0.1379
+-0.6119 geh mal 0.0150
+-0.3911 gehen erst -0.0796
+-0.3911 geht noch -0.1265
+-0.3911 gemacht </s> 2.0033
+-1.0890 genau </s> 1.8069
+-0.7863 genau da -0.2270
+-1.3453 genau in 0.4357
+-1.3453 genau leg 0.4357
+-0.7863 genau so -0.2333
+-0.0552 großes Stück -0.5710
+-0.8337 gut </s> 1.8069
+-1.0900 gut gemacht 0.0836
+-1.0900 gut viel 0.0836
+-0.3911 halt </s> 2.0033
+-0.3911 hier hin 0.4357
+-0.1331 hin </s> 1.8711
+-0.8682 hm </s> 2.0033
+-0.8682 hm acht 0.0836
+-0.8682 hm nach 0.0903
+-0.6921 hoch </s> 2.0033
+-0.6921 hoch und 0.1845
+-0.3911 hundertprozentig richtig 0.7022
+-0.3911 hälfte abgeschnitten 0.0836
+-0.9931 ich auch -0.0442
+-0.9931 ich erstmal 0.1502
+-0.9931 ich lieber 0.0836
+-0.9931 ich sagen 0.0836
+-0.1331 immer noch -0.0615
+-0.1331 in die 0.0618
+-0.9931 ist </s> 2.0033
+-0.7368 ist es -0.1001
+-1.3108 ja </s> 1.8069
+-1.0081 ja da -0.0893
+-1.5671 ja dann -0.1317
+-1.5671 ja erstmal -0.0796
+-0.6292 ja genau -0.0551
+-1.5671 ja gut -0.1060
+-1.5671 ja noch 0.1996
+-1.5671 ja richtig 0.7022
+-1.5671 ja so -0.1011
+-1.1692 jetzt erstmal 0.1502
+-1.1692 jetzt gut -0.1060
+-1.1692 jetzt links -0.1252
+-0.6102 jetzt loslassen -0.1533
+-1.1692 jetzt nach 0.0903
+-0.3911 jup </s> 2.0033
+-0.3911 kann es -0.1291
+-0.3911 kasten zu -0.0442
+-0.0580 kleines Stück -0.0620
+-1.2941 kleines Stückchen 0.0836
+-0.1331 kommt nach 0.0949
+-0.3911 kästchen nach -0.0934
+-0.1331 leg es -0.1148
+-0.3911 lieber erst 0.1502
+-0.9931 liegt auf 0.0565
+-0.9931 liegt da -0.1169
+-0.9931 liegt doch -0.0796
+-0.9931 liegt es -0.1291
+-0.3911 linke teil -0.1225
+-0.3911 linken Bildschirmrand 0.1502
+-0.1368 links </s> 0.7148
+-1.4002 links bitte 0.3035
+-1.0214 links oben -0.1249
+-1.0214 links und 0.1406
+-0.6119 loslassen </s> 1.8069
+-0.9931 mal das -0.1335
+-0.9931 mal fünf 0.0836
+-0.9931 mal nach 0.0366
+-0.9931 mal nen 0.0836
+-0.3911 mehr bewegen 0.0836
+-0.8682 muss auch -0.0442
+-0.8682 muss dahin 0.4357
+-0.8682 muss noch 0.1996
+-0.3911 musste es -0.1291
+-0.3911 n bisschen -0.0206
+-2.2040 nach ganz -0.1291
+-0.3815 nach links -0.1680
+-0.9678 nach oben -0.4153
+-0.4705 nach rechts -0.4443
+-2.2040 nach schräg 0.0565
+-0.9678 nach unten 0.2090
+-0.3911 nehme ich -0.0963
+-0.3911 nehmen </s> 2.0033
+-0.6921 nein abbrechen -0.0211
+-0.6921 nein zurück 0.7022
+-0.3911 nen paar 0.0836
+-0.3911 nicht mehr 0.0836
+-0.2632 noch ein -0.1321
+-1.4324 noch n 0.0836
+-1.4324 noch nach 0.0903
+-1.4324 noch sehr 0.0565
+-0.8734 noch weiter 0.3411
+-0.5671 oben </s> 1.1492
+-0.9460 oben links 0.4945
+-1.5050 oben um 0.0836
+-0.3358 oben und 0.1691
+-0.3911 oh jetzt -0.1124
+-0.6102 okay </s> 1.8711
+-1.1692 okay dann -0.1009
+-0.6102 okay es -0.2228
+-1.1692 okay warte 0.0836
+-0.3911 paar Felder 0.7022
+-0.3911 packe das 0.3577
+-0.6921 passt fast -0.0442
+-0.6921 passt so -0.1011
+-0.1331 perfekt </s> 1.8711
+-0.3911 position </s> 2.0033
+-0.3911 rand </s> 2.0033
+-0.3911 rechte seite 0.7022
+-0.3091 rechten Bildschirmrand 0.2845
+-0.8682 rechten rand 0.0836
+-0.1001 rechts </s> 0.7148
+-1.9225 rechts dann -0.1317
+-1.9225 rechts nach -0.0934
+-1.9225 rechts rechts 0.5435
+-1.3635 rechts und 0.0523
+-1.9225 rechts unten -0.1265
+-1.9225 rechts würde 0.0836
+-0.3911 reihe runter -0.0211
+-0.0669 richtig </s> 1.3680
+-0.3911 richtigen position 0.0836
+-0.3911 richtung </s> 2.0033
+-0.6119 runter </s> 1.8069
+-0.3911 rüber zum -0.0549
+-0.3911 sagen </s> 2.0033
+-0.3911 schluss </s> 2.0033
+-0.6921 schon da -0.0948
+-0.6921 schon richtig 0.7022
+-0.4341 schräg links -0.2316
+-0.9931 schräg rechts -0.1376
+-0.9931 schräg runter -0.0211
+-0.3911 seh ich -0.0963
+-0.4341 sehr gut -0.2062
+-0.4341 sehr weit 0.6273
+-0.0669 seite </s> 1.3680
+-1.0378 so </s> 1.8069
+-1.2941 so dass 0.0836
+-1.0378 so ist -0.2513
+-1.2941 so kann 0.0836
+-0.3911 soll es -0.1291
+-0.1331 stark nach 0.4659
+-0.1331 stopp </s> 1.8711
+-1.5952 teil </s> 2.0033
+-1.5952 teil circa -0.0442
+-1.5952 teil diagonal 0.4357
+-1.5952 teil drei -0.0211
+-1.5952 teil ein -0.1304
+-1.0361 teil kommt 0.3035
+-1.3389 teil liegt 0.0150
+-1.5952 teil muss -0.0796
+-1.5952 teil nach -0.1401
+-1.5952 teil nehmen 0.0836
+-1.3389 teil zum -0.0807
+-0.3911 total nach 0.0366
+-0.3911 um drei -0.0211
+-1.6215 und circa -0.0442
+-0.2762 und dann 0.0092
+-1.6215 und drei -0.0211
+-1.6215 und links 0.4253
+-1.6215 und nach 0.0903
+-1.6215 und stopp 0.4357
+-1.0625 und unten 0.1643
+-1.6215 und zehn 0.4357
+-0.1963 unten </s> 1.3010
+-1.4324 unten bisschen -0.0206
+-1.4324 unten rechts 0.5435
+-0.8734 unten und -0.1216
+-0.3911 viel nach 0.0366
+-0.3911 war doch -0.0796
+-0.3911 warte mal -0.0963
+-1.3453 weit links 0.4253
+-0.1761 weit nach -0.0037
+-0.7863 weit rechts 0.4113
+-1.5372 weiter </s> 2.0033
+-0.1919 weiter nach 0.1552
+-1.2809 weiter rechts 0.5626
+-1.5372 weiter weiter -0.1195
+-0.3911 wieder zurück 0.7022
+-0.3911 will ich -0.0963
+-0.3911 wir gehen 0.0836
+-0.3911 würde ich -0.0963
+-0.1331 zehn Felder 0.5701
+-0.3911 ziemlich weit -0.0653
+-0.6921 zu erst 0.1502
+-0.6921 zu hälfte 0.0836
+-0.9931 zum linken 0.0836
+-0.7368 zum rechten 0.2010
+-0.0669 zurück </s> 1.3680
+-0.3911 zurücklegen </s> 2.0033
+-0.6921 äh abbrechen -0.0211
+-0.6921 äh zurück 0.7022
+-0.3911 äußerste kasten 0.0836
+
+\3-grams:
+-2.6954 </s> <s> abbrechen 
+-2.6954 </s> <s> ablegen 
+-2.6954 </s> <s> ah 
+-2.6954 </s> <s> als 
+-2.6954 </s> <s> an 
+-2.6954 </s> <s> aufhören 
+-1.1888 </s> <s> bewege 
+-2.6954 </s> <s> bisschen 
+-1.9318 </s> <s> dann 
+-1.2399 </s> <s> das 
+-2.6954 </s> <s> der 
+-2.6954 </s> <s> diagonal 
+-2.6954 </s> <s> du 
+-1.1430 </s> <s> ein 
+-2.6954 </s> <s> eine 
+-2.6954 </s> <s> fast 
+-2.6954 </s> <s> fertig 
+-1.1888 </s> <s> ganz 
+-1.9318 </s> <s> geh 
+-1.4440 </s> <s> genau 
+-2.6954 </s> <s> halt 
+-2.6954 </s> <s> hier 
+-2.1707 </s> <s> hm 
+-2.1707 </s> <s> immer 
+-2.6954 </s> <s> in 
+-0.9669 </s> <s> ja 
+-1.4440 </s> <s> jetzt 
+-2.6954 </s> <s> jup 
+-2.6954 </s> <s> loslassen 
+-1.5871 </s> <s> nach 
+-2.1707 </s> <s> nein 
+-2.6954 </s> <s> noch 
+-2.6954 </s> <s> oben 
+-2.6954 </s> <s> oh 
+-1.3649 </s> <s> okay 
+-2.6954 </s> <s> packe 
+-2.6954 </s> <s> perfekt 
+-2.6954 </s> <s> rechts 
+-2.6954 </s> <s> schluss 
+-2.1707 </s> <s> schräg 
+-1.9318 </s> <s> sehr 
+-1.9318 </s> <s> so 
+-2.1707 </s> <s> stark 
+-2.6954 </s> <s> stopp 
+-2.6954 </s> <s> total 
+-2.1707 </s> <s> und 
+-2.1707 </s> <s> weit 
+-1.3649 </s> <s> weiter 
+-2.6954 </s> <s> wieder 
+-2.6954 </s> <s> wir 
+-2.6954 </s> <s> ziemlich 
+-2.6954 </s> <s> zu 
+-2.1707 </s> <s> zurück 
+-2.6954 </s> <s> zurücklegen 
+-2.1707 </s> <s> äh 
+-0.5523 <s> abbrechen </s> 
+-0.5523 <s> ablegen </s> 
+-0.5523 <s> ah hm 
+-0.5523 <s> als erstes 
+-0.5523 <s> an die 
+-0.5523 <s> aufhören </s> 
+-0.1091 <s> bewege das 
+-0.9819 <s> bewege es 
+-0.5523 <s> bisschen weiter 
+-1.0295 <s> dann leg 
+-1.0295 <s> dann nehme 
+-1.0295 <s> dann will 
+-0.9307 <s> das passt 
+-1.4554 <s> das seh 
+-0.2041 <s> das teil 
+-0.5523 <s> der bist 
+-0.5523 <s> diagonal nach 
+-0.5523 <s> du musste 
+-1.0690 <s> ein bisschen 
+-1.0690 <s> ein ganz 
+-0.4854 <s> ein großes 
+-0.8302 <s> ein kleines 
+-0.5523 <s> eine reihe 
+-0.5523 <s> fast da 
+-0.5523 <s> fertig </s> 
+-0.7430 <s> ganz auf 
+-0.9819 <s> ganz nach 
+-1.5066 <s> ganz rüber 
+-0.7430 <s> ganz weit 
+-0.2659 <s> geh mal 
+-1.2513 <s> genau </s> 
+-0.7266 <s> genau da 
+-1.2513 <s> genau in 
+-1.2513 <s> genau so 
+-0.5523 <s> halt </s> 
+-0.5523 <s> hier hin 
+-0.8534 <s> hm acht 
+-0.8534 <s> hm nach 
+-0.3287 <s> immer noch 
+-0.5523 <s> in die 
+-0.9649 <s> ja </s> 
+-1.2037 <s> ja da 
+-1.7284 <s> ja dann 
+-1.7284 <s> ja erstmal 
+-0.6201 <s> ja genau 
+-1.7284 <s> ja gut 
+-1.7284 <s> ja noch 
+-1.7284 <s> ja richtig 
+-1.7284 <s> ja so 
+-1.2513 <s> jetzt erstmal 
+-1.2513 <s> jetzt gut 
+-1.2513 <s> jetzt links 
+-0.7266 <s> jetzt loslassen 
+-0.5523 <s> jup </s> 
+-0.5523 <s> loslassen </s> 
+-0.6297 <s> nach links 
+-0.6297 <s> nach oben 
+-0.8534 <s> nein abbrechen 
+-0.8534 <s> nein zurück 
+-0.5523 <s> noch weiter 
+-0.5523 <s> oben links 
+-0.5523 <s> oh jetzt 
+-0.8058 <s> okay </s> 
+-1.3305 <s> okay dann 
+-0.8058 <s> okay es 
+-1.3305 <s> okay warte 
+-0.5523 <s> packe das 
+-0.5523 <s> perfekt </s> 
+-0.5523 <s> rechts rechts 
+-0.5523 <s> schluss </s> 
+-0.8534 <s> schräg links 
+-0.8534 <s> schräg rechts 
+-0.5048 <s> sehr gut 
+-1.0295 <s> sehr weit 
+-0.5048 <s> so ist 
+-1.0295 <s> so kann 
+-0.3287 <s> stark nach 
+-0.5523 <s> stopp </s> 
+-0.5523 <s> total nach 
+-0.8534 <s> und dann 
+-0.8534 <s> und stopp 
+-0.3287 <s> weit nach 
+-0.2222 <s> weiter nach 
+-1.3305 <s> weiter rechts 
+-1.3305 <s> weiter weiter 
+-0.5523 <s> wieder zurück 
+-0.5523 <s> wir gehen 
+-0.5523 <s> ziemlich weit 
+-0.5523 <s> zu erst 
+-0.3287 <s> zurück </s> 
+-0.5523 <s> zurücklegen </s> 
+-0.8534 <s> äh abbrechen 
+-0.8534 <s> äh zurück 
+-0.3287 Bildschirmrand </s> <s> 
+-0.5523 Bildschirmrand so dass 
+-1.0295 Feld nach rechts 
+-0.5048 Feld nach unten 
+-0.5523 Felder </s> <s> 
+-0.2222 Felder nach links 
+-1.3305 Felder nach oben 
+-1.3305 Felder nach rechts 
+-0.5523 Schritt nach rechts 
+-0.8534 Stück hoch </s> 
+-0.8534 Stück hoch und 
+-0.2218 Stück nach links 
+-1.5523 Stück nach oben 
+-1.0276 Stück nach rechts 
+-1.5523 Stück nach unten 
+-0.5523 Stück rechts und 
+-0.5048 Stück weiter nach 
+-1.0295 Stück weiter rechts 
+-0.5523 Stückchen noch nach 
+-0.2659 abbrechen </s> <s> 
+-0.5523 abgeschnitten ist </s> 
+-0.5523 ablegen </s> <s> 
+-0.5523 acht </s> <s> 
+-0.5523 ah hm </s> 
+-0.5523 als erstes ein 
+-0.5523 an die rechte 
+-0.2659 andere seite </s> 
+-0.5523 anderen seite </s> 
+-0.8534 anderes teil </s> 
+-0.8534 anderes teil nehmen 
+-0.5523 auch </s> <s> 
+-0.5523 auch noch ein 
+-0.8534 auf der andere 
+-0.8534 auf der richtigen 
+-0.8534 auf die andere 
+-0.8534 auf die anderen 
+-1.3974 bewege das linke 
+-0.0669 bewege das teil 
+-0.8534 bewege es doch 
+-0.8534 bewege es ein 
+-0.5523 bewegen </s> <s> 
+-0.5523 bisschen das nach 
+-0.8534 bisschen nach rechts 
+-0.8534 bisschen nach unten 
+-0.5523 bisschen oben links 
+-0.3287 bisschen weiter nach 
+-0.5523 bist du richtig 
+-0.3287 bitte </s> <s> 
+-0.5523 bleiben </s> <s> 
+-0.5523 circa ein Feld 
+-0.5523 circa zehn Felder 
+-0.2659 da </s> <s> 
+-0.5523 da hundertprozentig richtig 
+-0.5523 da liegt es 
+-0.5523 da noch ein 
+-0.5523 da soll es 
+-0.3287 dahin </s> <s> 
+-0.5523 dann </s> <s> 
+-0.5523 dann Stück hoch 
+-0.5523 dann dann rechts 
+-0.5523 dann geht noch 
+-0.5523 dann leg es 
+-0.5523 dann links </s> 
+-0.8534 dann nach links 
+-0.8534 dann nach oben 
+-0.5523 dann nehme ich 
+-0.3287 dann noch ein 
+-0.5523 dann rechts würde 
+-0.5523 dann runter </s> 
+-0.5523 dann schräg runter 
+-0.5523 dann weit links 
+-0.5523 dann will ich 
+-0.5523 das linke teil 
+-0.5523 das nach links 
+-0.8534 das passt fast 
+-0.8534 das passt so 
+-0.5523 das seh ich 
+-1.6663 das teil circa 
+-1.6663 das teil diagonal 
+-1.6663 das teil drei 
+-1.6663 das teil ein 
+-1.1416 das teil kommt 
+-0.9027 das teil liegt 
+-1.6663 das teil muss 
+-1.6663 das teil nach 
+-1.1416 das teil zum 
+-0.5523 das war doch 
+-0.5523 dass der äußerste 
+-0.5523 der andere seite 
+-0.5523 der bist du 
+-0.5523 der richtigen position 
+-0.5523 der äußerste kasten 
+-0.8534 diagonal nach links 
+-0.8534 diagonal nach unten 
+-0.3287 die andere seite 
+-0.5523 die anderen seite 
+-0.5523 die rechte seite 
+-0.5523 die richtung </s> 
+-0.5523 doch das teil 
+-0.5523 doch einfach ein 
+-0.5523 doch schon da 
+-1.0295 drei Felder </s> 
+-0.5048 drei Felder nach 
+-0.5523 du musste es 
+-0.5523 du richtig </s> 
+-0.5523 eigentlich schon richtig 
+-0.2659 ein Feld nach 
+-0.5523 ein Schritt nach 
+-1.0295 ein Stück nach 
+-0.5048 ein Stück weiter 
+-0.3287 ein anderes teil 
+-1.0295 ein bisschen das 
+-1.0295 ein bisschen nach 
+-1.0295 ein bisschen oben 
+-1.0295 ein ganz Stück 
+-0.5048 ein ganz kleines 
+-0.0461 ein großes Stück 
+-0.0792 ein kleines Stück 
+-1.3305 ein kleines Stückchen 
+-0.5523 ein kästchen nach 
+-0.5523 eine reihe runter 
+-0.5523 einfach ein Feld 
+-0.5523 eins nach rechts 
+-0.8534 erst ein anderes 
+-0.8534 erst ein kästchen 
+-0.5523 erst nach oben 
+-0.5523 erstes ein kleines 
+-0.8534 erstmal ein anderes 
+-0.8534 erstmal ein ganz 
+-0.5523 erstmal nach links 
+-0.5523 es bleiben </s> 
+-0.5523 es dahin </s> 
+-0.5523 es doch einfach 
+-0.5523 es eigentlich schon 
+-0.5523 es ein Schritt 
+-0.5523 es eins nach 
+-0.5523 es gut </s> 
+-0.5523 es hin </s> 
+-0.8534 es muss auch 
+-0.8534 es muss noch 
+-0.5523 es nicht mehr 
+-0.5523 es perfekt </s> 
+-0.5523 es richtig </s> 
+-0.5523 fast </s> <s> 
+-0.5523 fast da noch 
+-0.5523 fertig </s> <s> 
+-0.5523 fünf Felder nach 
+-0.5523 ganz Stück rechts 
+-1.0295 ganz auf der 
+-0.5048 ganz auf die 
+-0.3287 ganz kleines Stück 
+-0.5523 ganz links </s> 
+-0.8534 ganz nach links 
+-0.8534 ganz nach rechts 
+-0.5523 ganz rüber zum 
+-0.2659 ganz weit nach 
+-1.0295 geh mal fünf 
+-1.0295 geh mal nach 
+-1.0295 geh mal nen 
+-0.5523 gehen erst nach 
+-0.5523 geht noch n 
+-0.5523 gemacht </s> <s> 
+-0.2659 genau </s> <s> 
+-0.3287 genau da </s> 
+-0.5523 genau in die 
+-0.5523 genau leg es 
+-0.3287 genau so </s> 
+-0.0461 großes Stück nach 
+-0.2659 gut </s> <s> 
+-0.5523 gut gemacht </s> 
+-0.5523 gut viel nach 
+-0.5523 halt </s> <s> 
+-0.5523 hier hin </s> 
+-0.3287 hin </s> <s> 
+-0.5523 hm </s> <s> 
+-0.5523 hm acht </s> 
+-0.5523 hm nach links 
+-0.5523 hoch </s> <s> 
+-0.5523 hoch und dann 
+-0.5523 hundertprozentig richtig </s> 
+-0.5523 hälfte abgeschnitten ist 
+-0.5523 ich auch </s> 
+-0.5523 ich erstmal ein 
+-0.5523 ich lieber erst 
+-0.5523 ich sagen </s> 
+-0.8534 immer noch sehr 
+-0.8534 immer noch weiter 
+-0.8534 in die andere 
+-0.8534 in die richtung 
+-0.5523 ist </s> <s> 
+-1.0295 ist es gut 
+-1.0295 ist es perfekt 
+-1.0295 ist es richtig 
+-0.2659 ja </s> <s> 
+-0.8534 ja da liegt 
+-0.8534 ja da soll 
+-0.5523 ja dann geht 
+-0.5523 ja erstmal nach 
+-0.6297 ja genau </s> 
+-1.1544 ja genau leg 
+-1.1544 ja genau so 
+-0.5523 ja gut gemacht 
+-0.5523 ja noch ein 
+-0.5523 ja richtig </s> 
+-0.5523 ja so ist 
+-0.5523 jetzt erstmal ein 
+-0.5523 jetzt gut viel 
+-0.5523 jetzt links bitte 
+-0.3287 jetzt loslassen </s> 
+-0.5523 jetzt nach links 
+-0.5523 jup </s> <s> 
+-0.5523 kann es bleiben 
+-0.5523 kasten zu hälfte 
+-1.3974 kleines Stück hoch 
+-0.1461 kleines Stück nach 
+-1.3974 kleines Stück weiter 
+-0.5523 kleines Stückchen noch 
+-0.8534 kommt nach links 
+-0.8534 kommt nach schräg 
+-0.5523 kästchen nach unten 
+-0.8534 leg es dahin 
+-0.8534 leg es eins 
+-0.5523 lieber erst ein 
+-0.5523 liegt auf der 
+-0.5523 liegt da hundertprozentig 
+-0.5523 liegt doch schon 
+-0.5523 liegt es eigentlich 
+-0.5523 linke teil zum 
+-0.5523 linken Bildschirmrand </s> 
+-0.0164 links </s> <s> 
+-0.3287 links bitte </s> 
+-0.3909 links oben </s> 
+-1.1544 links oben um 
+-0.6297 links und dann 
+-0.6297 links und unten 
+-0.2659 loslassen </s> <s> 
+-0.5523 mal das war 
+-0.5523 mal fünf Felder 
+-0.5523 mal nach rechts 
+-0.5523 mal nen paar 
+-0.5523 mehr bewegen </s> 
+-0.5523 muss auch noch 
+-0.5523 muss dahin </s> 
+-0.5523 muss noch ein 
+-0.5523 musste es nicht 
+-0.5523 n bisschen weiter 
+-0.5523 nach ganz links 
+-0.1091 nach links </s> 
+-1.4590 nach links oben 
+-0.8754 nach links und 
+-1.3974 nach oben </s> 
+-0.0669 nach oben und 
+-0.0414 nach rechts </s> 
+-1.8948 nach rechts dann 
+-1.8948 nach rechts unten 
+-0.5523 nach schräg links 
+-0.2891 nach unten </s> 
+-1.3974 nach unten rechts 
+-0.8727 nach unten und 
+-0.5523 nehme ich lieber 
+-0.5523 nehmen </s> <s> 
+-0.5523 nein abbrechen </s> 
+-0.5523 nein zurück </s> 
+-0.5523 nen paar Felder 
+-0.5523 nicht mehr bewegen 
+-0.5669 noch ein Stück 
+-1.3305 noch ein bisschen 
+-0.8058 noch ein kleines 
+-0.5523 noch n bisschen 
+-0.5523 noch nach links 
+-0.5523 noch sehr weit 
+-0.8534 noch weiter </s> 
+-0.8534 noch weiter nach 
+-0.0461 oben </s> <s> 
+-0.8534 oben links </s> 
+-0.8534 oben links bitte 
+-0.5523 oben um drei 
+-0.5669 oben und dann 
+-1.3305 oben und drei 
+-1.3305 oben und links 
+-1.3305 oben und nach 
+-0.5523 oh jetzt nach 
+-0.3287 okay </s> <s> 
+-0.5523 okay dann noch 
+-0.3287 okay es muss 
+-0.5523 okay warte mal 
+-0.5523 paar Felder nach 
+-0.5523 packe das teil 
+-0.5523 passt fast </s> 
+-0.5523 passt so </s> 
+-0.3287 perfekt </s> <s> 
+-0.5523 position </s> <s> 
+-0.5523 rand </s> <s> 
+-0.5523 rechte seite </s> 
+-0.8534 rechten Bildschirmrand </s> 
+-0.8534 rechten Bildschirmrand so 
+-0.5523 rechten rand </s> 
+-0.0164 rechts </s> <s> 
+-0.5523 rechts dann </s> 
+-0.5523 rechts nach unten 
+-0.5523 rechts rechts </s> 
+-0.3287 rechts und dann 
+-0.5523 rechts unten bisschen 
+-0.5523 rechts würde ich 
+-0.5523 reihe runter </s> 
+-0.0792 richtig </s> <s> 
+-0.5523 richtigen position </s> 
+-0.5523 richtung </s> <s> 
+-0.2659 runter </s> <s> 
+-0.5523 rüber zum rechten 
+-0.5523 sagen </s> <s> 
+-0.5523 schluss </s> <s> 
+-0.5523 schon da </s> 
+-0.5523 schon richtig </s> 
+-0.3287 schräg links oben 
+-0.5523 schräg rechts nach 
+-0.5523 schräg runter </s> 
+-0.5523 seh ich auch 
+-0.3287 sehr gut </s> 
+-0.8534 sehr weit nach 
+-0.8534 sehr weit rechts 
+-0.0792 seite </s> <s> 
+-0.2659 so </s> <s> 
+-0.5523 so dass der 
+-0.2659 so ist es 
+-0.5523 so kann es 
+-0.5523 soll es hin 
+-0.8534 stark nach links 
+-0.8534 stark nach rechts 
+-0.3287 stopp </s> <s> 
+-0.5523 teil </s> <s> 
+-0.5523 teil circa ein 
+-0.5523 teil diagonal nach 
+-0.5523 teil drei Felder 
+-0.5523 teil ein Feld 
+-0.3287 teil kommt nach 
+-1.0295 teil liegt auf 
+-1.0295 teil liegt da 
+-1.0295 teil liegt doch 
+-0.5523 teil muss dahin 
+-0.5523 teil nach ganz 
+-0.5523 teil nehmen </s> 
+-1.0295 teil zum linken 
+-0.5048 teil zum rechten 
+-0.5523 total nach rechts 
+-0.5523 um drei Felder 
+-0.5523 und circa zehn 
+-1.5066 und dann Stück 
+-1.5066 und dann dann 
+-1.5066 und dann links 
+-0.9819 und dann nach 
+-1.5066 und dann noch 
+-1.5066 und dann runter 
+-1.5066 und dann schräg 
+-1.5066 und dann weit 
+-0.5523 und drei Felder 
+-0.5523 und links </s> 
+-0.5523 und nach links 
+-0.5523 und stopp </s> 
+-0.3287 und unten </s> 
+-0.5523 und zehn Felder 
+-0.0669 unten </s> <s> 
+-0.5523 unten bisschen nach 
+-0.5523 unten rechts </s> 
+-0.8534 unten und circa 
+-0.8534 unten und zehn 
+-0.5523 viel nach rechts 
+-0.5523 war doch das 
+-0.5523 warte mal das 
+-0.5523 weit links </s> 
+-0.8058 weit nach links 
+-0.2222 weit nach rechts 
+-0.3287 weit rechts </s> 
+-0.5523 weiter </s> <s> 
+-0.9819 weiter nach links 
+-1.5066 weiter nach oben 
+-0.1761 weiter nach rechts 
+-0.5048 weiter rechts </s> 
+-1.0295 weiter rechts und 
+-0.5523 weiter weiter rechts 
+-0.5523 wieder zurück </s> 
+-0.5523 will ich erstmal 
+-0.5523 wir gehen erst 
+-0.5523 würde ich sagen 
+-0.3287 zehn Felder nach 
+-0.5523 ziemlich weit rechts 
+-0.5523 zu erst ein 
+-0.5523 zu hälfte abgeschnitten 
+-0.5523 zum linken Bildschirmrand 
+-0.5048 zum rechten Bildschirmrand 
+-1.0295 zum rechten rand 
+-0.0792 zurück </s> <s> 
+-0.5523 zurücklegen </s> <s> 
+-0.5523 äh abbrechen </s> 
+-0.5523 äh zurück </s> 
+-0.5523 äußerste kasten zu 
+
+\end\

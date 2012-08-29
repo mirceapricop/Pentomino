@@ -36,5 +36,9 @@ targets:
     id: 6
     top: 410
     left: 405
+  - label: "Ruecken"
+    id: 7
+    top: 260
+    left: 285
   
     
